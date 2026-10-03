@@ -1,5 +1,5 @@
 import React from 'react'
-import Home from './pages/home/Home'
+import Home from './pages/Home/Home'
 import { Routes, Route } from 'react-router-dom'
 import Player from './pages/Player/Player'
 import { ToastContainer } from 'react-toastify'
