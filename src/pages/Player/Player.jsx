@@ -67,7 +67,7 @@ const langNames = {
   ukr: 'Ukrainian'
 };
 
-export const parseTimeToSeconds = (val) => {
+const parseTimeToSeconds = (val) => {
   if (!val) return 0;
   if (typeof val === 'number') return Math.max(0, Math.floor(val));
   const str = String(val).trim().toLowerCase();
@@ -98,7 +98,7 @@ export const parseTimeToSeconds = (val) => {
   return isNaN(num) ? 0 : Math.max(0, num);
 };
 
-export const formatSecondsToTime = (secs) => {
+const formatSecondsToTime = (secs) => {
   const s = Math.max(0, Math.floor(secs || 0));
   const hours = Math.floor(s / 3600);
   const minutes = Math.floor((s % 3600) / 60);
