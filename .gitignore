@@ -23,3 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 .env
+movies-source.zip
+*.p12
+*.pwd
+*.wgt

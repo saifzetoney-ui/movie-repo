@@ -2,9 +2,36 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./Netflic.jpg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Movie Streaming Site</title>
+    <link rel="icon" type="image/jpeg" href="./Netflic.jpg" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    <!-- Smart TV & PWA Fullscreen Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Neplify" />
+    <meta name="theme-color" content="#141414" />
+    <meta name="msapplication-navbutton-color" content="#141414" />
+    
+    <title>Neplify - Watch Movies & TV Shows</title>
+
+    <!-- Samsung Tizen & LG webOS Remote Control Key Handler -->
+    <script>
+      if (window.tizen && window.tizen.tvinputdevice) {
+        try {
+          var tizenKeys = [
+            "MediaPlayPause", "MediaPlay", "MediaPause", "MediaFastForward", "MediaRewind",
+            "1", "2", "3", "4", "5", "ColorF0Red", "ColorF1Green", "ColorF2Yellow", "ColorF3Blue"
+          ];
+          tizenKeys.forEach(function(k) {
+            window.tizen.tvinputdevice.registerKey(k);
+          });
+        } catch (e) {
+          console.warn("Tizen key registration:", e);
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
