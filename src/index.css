@@ -28,6 +28,24 @@ a {
 
 button {
   font-family: inherit;
+  border-color: color-mix(in srgb, currentColor 22%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.45);
+  backdrop-filter: blur(14px) saturate(1.45);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06),
+    0 5px 18px rgba(0, 0, 0, 0.16);
+  transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+  transition-duration: 180ms;
+  transition-timing-function: ease;
+}
+
+button:hover:not(:disabled) {
+  border-color: color-mix(in srgb, currentColor 34%, transparent);
+  filter: brightness(1.08);
+}
+
+button:active:not(:disabled) {
+  filter: brightness(0.96);
 }
 
 html {
