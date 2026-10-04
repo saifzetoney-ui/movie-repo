@@ -74,6 +74,21 @@
   display: none;
 }
 
+/* The 3D orbit intentionally extends beyond the carousel viewport. Reserve
+   room for its lower cards so the next catalogue row never collides with it. */
+.title-cards-section--tv-circular {
+  padding-bottom: 140px;
+}
+
+/* The TV remote can focus the carousel region itself; keep focus on the active
+   card instead of drawing an oversized blue rectangle around the whole orbit. */
+.title-cards-section--circular .circular-carousel.tv-focused,
+.title-cards-section--circular .circular-carousel:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
 .circular-carousel__arrow {
   position: absolute;
   top: 46%;
@@ -108,6 +123,7 @@
     min-height: 390px;
   }
   .title-cards-section--circular .circular-carousel__stage { inset-inline: 4%; }
+  .title-cards-section--tv-circular { padding-bottom: 110px; }
   .circular-carousel__arrow { width: 38px; height: 38px; font-size: 26px; }
 }
 

@@ -115,7 +115,7 @@ const TitleCards = ({ title = "Movies", category = "popular", mediaType = "movie
       }));
 
     return (
-      <div className="title-cards-section title-cards-section--circular">
+      <div className="title-cards-section title-cards-section--circular title-cards-section--tv-circular">
         <div className="section-header"><h2 className="section-title">{title}</h2></div>
         {carouselItems.length > 0 ? (
           <CircularCarousel
