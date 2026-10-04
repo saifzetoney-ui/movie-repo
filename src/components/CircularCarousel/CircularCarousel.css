@@ -16,6 +16,7 @@
 .title-cards-section--circular {
   margin-top: 30px;
   padding: 0 3.6%;
+  padding-bottom: 130px;
 }
 
 .title-cards-section--circular .section-header {
@@ -117,7 +118,7 @@
 .circular-carousel__arrow--next { right: 2%; }
 
 @media (max-width: 700px) {
-  .title-cards-section--circular { padding: 0 4%; }
+  .title-cards-section--circular { padding: 0 4% 100px; }
   .title-cards-section--circular .circular-carousel {
     height: 390px;
     min-height: 390px;
