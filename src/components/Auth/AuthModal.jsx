@@ -43,7 +43,7 @@ const AuthModal = () => {
       </div>
 
       <header className="auth-header">
-        <img src={logo} alt="Netflix" className="auth-logo" />
+        <span className="neplify-brand-logo">NEPLIFY</span>
       </header>
 
       <main className="auth-card-container">
@@ -140,7 +140,7 @@ const AuthModal = () => {
               </p>
             ) : (
               <p>
-                New to Netflix?{' '}
+                New to Neplify?{' '}
                 <button
                   type="button"
                   className="switch-link-btn"

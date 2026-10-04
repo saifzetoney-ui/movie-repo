@@ -10,7 +10,7 @@ const DemoFlowNavigator = ({ onSelectProvider }) => {
     { id: 'signin', label: '1. Sign In', action: () => { logout(); setFlowState('signin'); } },
     { id: 'signup', label: '2. Sign Up', action: () => { setFlowState('signup'); } },
     { id: 'browser_save_dialog', label: '3. Save Password Prompt', action: () => { setFlowState('browser_save_dialog'); } },
-    { id: 'netflix_splash', label: '4. Netflix Splash Screen', action: () => { setFlowState('netflix_splash'); } },
+    { id: 'netflix_splash', label: '4. Neplify Splash Screen', action: () => { setFlowState('netflix_splash'); } },
     { id: 'create_profile', label: '5. Create a Profile', action: () => { openCreateProfile(); } },
     { id: 'home', label: '6. Main Streaming Homepage', action: () => { setFlowState('home'); onSelectProvider && onSelectProvider(null); } },
     { id: 'prime_provider', label: '7. Amazon Prime Video Page', action: () => { setFlowState('home'); onSelectProvider && onSelectProvider('prime'); } }

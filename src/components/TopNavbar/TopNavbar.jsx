@@ -101,7 +101,7 @@ const TopNavbar = ({
 
         {/* Brand Logo */}
         <div className="navbar-brand-logo" onClick={() => handleNavClick('Home')}>
-          <img src={logo} alt="Netflix" className="brand-logo-img" />
+          <span className="neplify-brand-logo">NEPLIFY</span>
         </div>
 
         {/* Desktop Navigation Links */}
@@ -275,7 +275,7 @@ const TopNavbar = ({
                   logout();
                 }}
               >
-                <span>Sign out of Netflix</span>
+                <span>Sign out of Neplify</span>
               </div>
             </div>
           )}
@@ -320,7 +320,7 @@ const TopNavbar = ({
                   logout();
                 }}
               >
-                <span>Sign out of Netflix</span>
+                <span>Sign out of Neplify</span>
               </button>
             </li>
           </ul>

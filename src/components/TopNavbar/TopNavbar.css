@@ -43,6 +43,24 @@
   transform: scale(1.02);
 }
 
+.neplify-brand-logo {
+  color: #E50914;
+  font-family: 'Impact', 'Bebas Neue', 'Arial Black', sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(229, 9, 20, 0.7);
+  user-select: none;
+  display: inline-block;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.neplify-brand-logo:hover {
+  transform: scale(1.03);
+}
+
 /* Nav Links */
 .navbar-links-list {
   display: flex;

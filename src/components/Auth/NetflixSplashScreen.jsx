@@ -70,11 +70,11 @@ const NetflixSplashScreen = () => {
         <div className="netflix-wordmark">
           <span>N</span>
           <span>E</span>
-          <span>T</span>
-          <span>F</span>
+          <span>P</span>
           <span>L</span>
           <span>I</span>
-          <span>X</span>
+          <span>F</span>
+          <span>Y</span>
         </div>
 
         <div className="splash-loading-pulse">

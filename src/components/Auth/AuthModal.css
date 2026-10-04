@@ -45,6 +45,17 @@
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
 }
 
+.neplify-brand-logo {
+  color: #E50914;
+  font-family: 'Impact', 'Bebas Neue', 'Arial Black', sans-serif;
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 12px rgba(229, 9, 20, 0.7);
+  user-select: none;
+}
+
 /* Card Container */
 .auth-card-container {
   position: relative;

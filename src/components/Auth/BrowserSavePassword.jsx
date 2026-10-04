@@ -14,7 +14,7 @@ const BrowserSavePassword = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const emailDisplay = pendingCredentials?.email || 'user@netflix.com';
+  const emailDisplay = pendingCredentials?.email || 'user@neplify.stream';
 
   return (
     <div className="browser-interaction-wrapper">
@@ -25,12 +25,12 @@ const BrowserSavePassword = () => {
       <div className="browser-top-bar-mock">
         <div className="browser-tab">
           <span className="browser-tab-favicon">🎬</span>
-          <span className="browser-tab-title">Netflix - Watch TV Shows Online</span>
+          <span className="browser-tab-title">Neplify - Watch Movies & TV Shows</span>
           <span className="browser-tab-close">✕</span>
         </div>
         <div className="browser-address-bar">
           <div className="lock-icon">🔒</div>
-          <span className="address-text">https://www.netflix.com/login</span>
+          <span className="address-text">https://www.neplify.stream/login</span>
           <div className="browser-actions-icons">
             <span className="key-icon-active" title="Password Manager">🔑</span>
             <span className="star-icon">★</span>
@@ -49,7 +49,7 @@ const BrowserSavePassword = () => {
           </div>
           <div className="prompt-header-text">
             <h4>Save password?</h4>
-            <p>Save password to Google Password Manager for <strong>netflix.com</strong></p>
+            <p>Save password to Google Password Manager for <strong>neplify.stream</strong></p>
           </div>
         </div>
 
