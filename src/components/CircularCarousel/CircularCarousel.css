@@ -26,10 +26,14 @@
 .movies-circular-section .circular-carousel {
   height: 460px;
   min-height: 460px;
-  overflow: hidden;
+  overflow: visible;
+  isolation: isolate;
   background:
     radial-gradient(ellipse at 50% 47%, rgba(50, 100, 205, 0.19), rgba(16, 27, 51, 0.12) 31%, transparent 62%);
 }
+
+.movies-circular-section .circular-carousel__view,
+.movies-circular-section .circular-carousel__stage { overflow: visible; }
 
 .movies-circular-section .circular-carousel__stage { inset: 0; }
 

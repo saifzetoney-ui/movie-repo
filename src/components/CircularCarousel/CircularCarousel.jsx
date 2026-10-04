@@ -853,6 +853,9 @@ const CircularCarousel = ({
             draggable={false}
             decoding="async"
             style={photoStyle}
+            onError={event => {
+              event.currentTarget.style.visibility = 'hidden';
+            }}
           />
           {back && <div className="circular-carousel__inner" />}
           <div className="circular-carousel__shade" />

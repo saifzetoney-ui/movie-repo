@@ -69,11 +69,11 @@ const TitleCards = ({ title = "Movies", category = "popular", mediaType = "movie
   const displayList = apiData.length > 0 ? apiData : referenceMovies;
 
   if (mediaType === 'movie' && title === 'Movies') {
-    const carouselItems = displayList.map((card, index) => ({
+    const carouselItems = displayList.filter(card => card.poster_path || card.backdrop_path).map((card, index) => ({
       id: card.id || index + 1,
       src: card.poster_path
         ? (card.poster_path.startsWith('http') ? card.poster_path : `https://image.tmdb.org/t/p/w500${card.poster_path}`)
-        : (card.backdrop_path?.startsWith('http') ? card.backdrop_path : `https://image.tmdb.org/t/p/w500${card.backdrop_path || ''}`),
+        : (card.backdrop_path.startsWith('http') ? card.backdrop_path : `https://image.tmdb.org/t/p/w500${card.backdrop_path}`),
       title: card.title || card.original_title || card.name || 'Movie',
       alt: card.title || card.original_title || card.name || 'Movie'
     }));
