@@ -1284,54 +1284,6 @@ const Player = () => {
             />
           </div>
 
-          {/* Stream Server Switcher */}
-          {playMode === 'stream' && (
-            <div className="server-toggle-group">
-              <span className="server-label">Stream Server:</span>
-              <button 
-                className={`server-pill auto-server-pill ${server === 0 ? 'active' : ''}`}
-                onClick={() => setServer(0)}
-                title="Automatically choose the best available HD server"
-              >
-                ✨ Auto · Best quality
-              </button>
-              <button 
-                className={`server-pill ${resolvedServer === 1 && server !== 0 ? 'active' : ''}`}
-                onClick={() => setServer(1)}
-                title="VidSrc Fast CDN Stream (Default)"
-              >
-                📺 VidSrc
-              </button>
-              <button 
-                className={`server-pill ${resolvedServer === 2 && server !== 0 ? 'active' : ''}`}
-                onClick={() => setServer(2)}
-                title="VidCore HD (Fast CDN + Subtitles)"
-              >
-                ⚡ VidCore HD
-              </button>
-              <button 
-                className={`server-pill ${resolvedServer === 3 && server !== 0 ? 'active' : ''}`}
-                onClick={() => setServer(3)}
-                title="SuperEmbed Fast (Instant Play, No Subs)"
-              >
-                🚀 SuperEmbed Fast
-              </button>
-              <button 
-                className={`server-pill ${resolvedServer === 4 && server !== 0 ? 'active' : ''}`}
-                onClick={() => setServer(4)}
-                title="SuperEmbed 2 Backup Server"
-              >
-                ⚡ SuperEmbed 2
-              </button>
-              <button 
-                className={`server-pill ${resolvedServer === 5 && server !== 0 ? 'active' : ''}`}
-                onClick={() => setServer(5)}
-                title="VidLink Player with built-in CC"
-              >
-                🎬 VidLink
-              </button>
-            </div>
-          )}
         </div>
 
         <p className="player-synopsis">{details.overview}</p>
