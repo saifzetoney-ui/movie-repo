@@ -127,7 +127,7 @@ const Player = () => {
   const [playMode, setPlayMode] = useState('stream');
   // Auto mode prefers the HD/CDN sources first, then falls back through the
   // remaining providers if an embed fails to load.
-  const [server, setServer] = useState(0);
+  const [server, setServer] = useState(1);
   const serverPriority = [2, 5, 1, 3, 4];
   const [season, setSeason] = useState(() => {
     const s = Number(seasonParam);
@@ -1300,7 +1300,7 @@ const Player = () => {
                 onClick={() => setServer(1)}
                 title="VidSrc Fast CDN Stream (Default)"
               >
-                📺 VidSrc (Default)
+                📺 VidSrc
               </button>
               <button 
                 className={`server-pill ${resolvedServer === 2 && server !== 0 ? 'active' : ''}`}
