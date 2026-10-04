@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './TitleCards.css';
 import { referenceMovies } from '../../../data/referenceMovies';
 import { Link } from 'react-router-dom';
+import CircularCarousel from '../../CircularCarousel/CircularCarousel';
 
 const TitleCards = ({ title = "Movies", category = "popular", mediaType = "movie", onToggleMyList, myListIds = [] }) => {
   const [apiData, setApiData] = useState([]);
@@ -66,6 +67,27 @@ const TitleCards = ({ title = "Movies", category = "popular", mediaType = "movie
   }, [category, mediaType, title]);
 
   const displayList = apiData.length > 0 ? apiData : referenceMovies;
+
+  if (mediaType === 'movie' && title === 'Movies') {
+    const carouselItems = displayList.map((card, index) => ({
+      id: card.id || index + 1,
+      src: card.backdrop_path
+        ? (card.backdrop_path.startsWith('http') ? card.backdrop_path : `https://image.tmdb.org/t/p/w780${card.backdrop_path}`)
+        : (card.poster_path?.startsWith('http') ? card.poster_path : `https://image.tmdb.org/t/p/w500${card.poster_path || ''}`),
+      title: card.title || card.original_title || card.name || 'Movie',
+      alt: card.title || card.original_title || card.name || 'Movie'
+    }));
+
+    return (
+      <div className="title-cards-section movies-circular-section">
+        <div className="section-header"><h2 className="section-title">{title}</h2></div>
+        <CircularCarousel
+          items={carouselItems}
+          onItemClick={(item) => { window.location.href = `/player/${item.id}?type=movie`; }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="title-cards-section">
