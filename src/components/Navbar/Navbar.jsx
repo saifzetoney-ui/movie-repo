@@ -194,6 +194,8 @@ const Navbar = ({ onSearch, searchQuery = '', onSelectCategory, selectedCategory
           {navItems.map((item) => (
             <li
               key={item.name}
+              tabIndex={0}
+              role="button"
               className={`sidebar-nav-item ${activeTab === item.name ? 'active' : ''} ${item.isAction ? 'nav-action-item' : ''}`}
               onClick={() => {
                 if (item.isAction && item.onClick) {
@@ -202,6 +204,17 @@ const Navbar = ({ onSearch, searchQuery = '', onSelectCategory, selectedCategory
                 }
                 if (onSelectTab) onSelectTab(item.name);
                 if (item.name === 'Home' && onSelectCategory) onSelectCategory('all');
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  if (item.isAction && item.onClick) {
+                    item.onClick();
+                  } else {
+                    if (onSelectTab) onSelectTab(item.name);
+                    if (item.name === 'Home' && onSelectCategory) onSelectCategory('all');
+                  }
+                }
               }}
               title={collapsed ? item.name : undefined}
             >
@@ -229,7 +242,10 @@ const Navbar = ({ onSearch, searchQuery = '', onSelectCategory, selectedCategory
         {!collapsed && (
           <div 
             className="sidebar-section-title toggleable-title"
+            tabIndex={0}
+            role="button"
             onClick={() => setCategoriesOpen(!categoriesOpen)}
+            onKeyDown={(e) => { if (e.key === 'Enter') setCategoriesOpen(!categoriesOpen); }}
           >
             <span>CATEGORIES</span>
             <span className="cat-accordion-icon">{categoriesOpen ? '▾' : '▸'}</span>
@@ -241,8 +257,11 @@ const Navbar = ({ onSearch, searchQuery = '', onSelectCategory, selectedCategory
             {categories.map((cat) => (
               <li
                 key={cat.id}
+                tabIndex={0}
+                role="button"
                 className={`sidebar-category-item ${selectedCategory === cat.id ? 'active' : ''}`}
                 onClick={() => onSelectCategory && onSelectCategory(cat.id)}
+                onKeyDown={(e) => { if (e.key === 'Enter') onSelectCategory && onSelectCategory(cat.id); }}
               >
                 <span className="category-bullet">•</span>
                 <span className="category-item-text">{cat.label}</span>

@@ -1,0 +1,778 @@
+/* ==========================================================================
+   Smart TV Remote Control & HUD Styling
+   ========================================================================== */
+
+/* Floating TV Screen HUD Toast */
+.tv-hud-toast {
+  position: fixed;
+  top: 24px;
+  right: 28px;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(18, 18, 24, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7), 0 0 20px rgba(229, 9, 20, 0.35);
+  border-radius: 40px;
+  padding: 10px 20px 10px 14px;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  pointer-events: none;
+  animation: hudSlideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.tv-hud-icon {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tv-hud-text {
+  letter-spacing: 0.3px;
+}
+
+.tv-hud-badge {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  background: #e50914;
+  color: #fff;
+  padding: 2px 7px;
+  border-radius: 12px;
+  margin-left: 4px;
+}
+
+@keyframes hudSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Floating Remote Control Launcher Button */
+.tv-remote-floating-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #1f2029 0%, #111217 100%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(229, 9, 20, 0.3);
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.tv-remote-floating-toggle:hover {
+  background: linear-gradient(135deg, #2a2c38 0%, #191b22 100%);
+  border-color: #e50914;
+  box-shadow: 0 10px 32px rgba(229, 9, 20, 0.4), 0 0 15px rgba(229, 9, 20, 0.5);
+  transform: translateY(-3px) scale(1.02);
+}
+
+.tv-remote-floating-toggle.active {
+  background: #e50914;
+  border-color: #ff3b30;
+  box-shadow: 0 8px 25px rgba(229, 9, 20, 0.6);
+}
+
+.remote-toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.remote-toggle-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.remote-toggle-hint {
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.16);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #ddd;
+}
+
+/* Modal Overlay backdrop for Remote */
+.tv-remote-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99998;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 32px;
+  animation: remoteFadeIn 0.2s ease-out;
+}
+
+@keyframes remoteFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Realistic Smart TV Remote Chassis */
+.tv-virtual-remote {
+  width: 290px;
+  background: linear-gradient(180deg, #23252e 0%, #15161b 45%, #0e0f13 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 46px;
+  padding: 16px 20px 22px;
+  box-shadow: 
+    0 24px 70px rgba(0, 0, 0, 0.9),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.8),
+    0 0 0 2px rgba(35, 37, 46, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  user-select: none;
+  animation: remoteScaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes remoteScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+  }
+}
+
+/* Top Infrared Emitter */
+.remote-top-sensor {
+  display: flex;
+  justify-content: center;
+  margin-top: -6px;
+}
+
+.remote-ir-led {
+  width: 14px;
+  height: 6px;
+  background: #333;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.remote-ir-led.flashing {
+  background: #ff2a2a;
+  box-shadow: 0 0 14px #ff2a2a, 0 0 24px rgba(255, 42, 42, 0.8);
+}
+
+/* Header: Brand & Controls */
+.remote-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.remote-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.brand-dot {
+  width: 6px;
+  height: 6px;
+  background: #e50914;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #e50914;
+}
+
+.brand-text {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  color: #a3a3a3;
+}
+
+.remote-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.remote-sound-btn,
+.remote-close-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bbb;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.remote-sound-btn:hover,
+.remote-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+/* Common Remote Row */
+.remote-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* Top Power Row */
+.remote-top-row .remote-btn {
+  background: #252732;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ddd;
+  border-radius: 20px;
+  height: 34px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  transition: all 0.15s;
+}
+
+.remote-top-row .remote-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.remote-top-row .btn-power {
+  background: #2a1515;
+  color: #ff4747;
+  border-color: rgba(255, 71, 71, 0.3);
+}
+
+.remote-top-row .btn-power.powered {
+  color: #ff3333;
+  box-shadow: 0 0 10px rgba(255, 51, 51, 0.3);
+}
+
+.remote-top-row .btn-num-toggle.active {
+  background: #383b4d;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Collapsible Keypad */
+.remote-number-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.remote-num-btn {
+  background: #1c1d25;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #eee;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 8px 0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.remote-num-btn:hover {
+  background: #2b2e3c;
+  color: #fff;
+}
+
+.remote-num-btn:active {
+  transform: translateY(1px);
+}
+
+/* Circular D-Pad Container */
+.remote-dpad-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 6px 0;
+}
+
+.remote-dpad-rim {
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #252834 0%, #181921 70%, #111216 100%);
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.6),
+    inset 0 2px 4px rgba(255, 255, 255, 0.12),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.6);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dpad-btn {
+  position: absolute;
+  background: transparent;
+  border: none;
+  color: #999cb0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.dpad-btn:hover {
+  color: #ffffff;
+}
+
+.dpad-btn:active {
+  transform: scale(0.9);
+  color: #e50914;
+}
+
+.dpad-up {
+  top: 10px;
+  width: 80px;
+  height: 42px;
+}
+
+.dpad-down {
+  bottom: 10px;
+  width: 80px;
+  height: 42px;
+}
+
+.dpad-left {
+  left: 10px;
+  width: 42px;
+  height: 80px;
+}
+
+.dpad-right {
+  right: 10px;
+  width: 42px;
+  height: 80px;
+}
+
+/* Central Tactile OK Button */
+.dpad-center-ok {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #343747 0%, #20222c 70%, #161820 100%);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    0 4px 14px rgba(0, 0, 0, 0.7),
+    inset 0 1px 2px rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  z-index: 2;
+}
+
+.dpad-center-ok:hover {
+  background: radial-gradient(circle at 35% 35%, #424659 0%, #272a37 70%, #1c1d27 100%);
+  box-shadow: 0 0 16px rgba(229, 9, 20, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.dpad-center-ok:active {
+  transform: scale(0.92);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  background: #e50914;
+}
+
+/* Navigation Trio */
+.remote-nav-trio .remote-nav-btn {
+  flex: 1;
+  background: #1f212a;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  color: #cfd2e0;
+  border-radius: 16px;
+  padding: 9px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 600;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.15s;
+}
+
+.remote-nav-trio .remote-nav-btn:hover {
+  background: #2a2c39;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.remote-nav-trio .remote-nav-btn:active {
+  transform: translateY(1px);
+}
+
+.remote-nav-trio .btn-home-main {
+  background: #262936;
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+/* Smart TV Color Shortcut Buttons */
+.remote-color-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 8px 10px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.color-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 0;
+  transition: all 0.15s;
+}
+
+.color-btn span {
+  width: 22px;
+  height: 6px;
+  border-radius: 4px;
+  transition: all 0.15s;
+}
+
+.color-btn label {
+  font-size: 8px;
+  font-weight: 700;
+  color: #888;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+}
+
+.color-btn:hover label {
+  color: #fff;
+}
+
+.color-btn:active span {
+  transform: scale(0.9);
+}
+
+.color-red span { background: #e50914; box-shadow: 0 0 6px rgba(229, 9, 20, 0.5); }
+.color-green span { background: #10b981; box-shadow: 0 0 6px rgba(16, 185, 129, 0.5); }
+.color-yellow span { background: #f59e0b; box-shadow: 0 0 6px rgba(245, 158, 11, 0.5); }
+.color-blue span { background: #3b82f6; box-shadow: 0 0 6px rgba(59, 130, 246, 0.5); }
+
+/* Rockers: Volume & Channel */
+.remote-rockers-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 6px;
+}
+
+.remote-rocker-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.rocker-label {
+  font-size: 9px;
+  font-weight: 800;
+  color: #777b8f;
+  letter-spacing: 1px;
+}
+
+.rocker-control {
+  width: 100%;
+  background: #1c1d25;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.rocker-btn {
+  background: transparent;
+  border: none;
+  color: #c0c3d4;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 7px 0;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rocker-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.rocker-btn:active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.rocker-mid {
+  font-size: 11px;
+  padding: 4px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.rocker-mid.muted {
+  color: #ff3b30;
+}
+
+/* Media Controls Bar */
+.remote-media-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.remote-media-btn {
+  flex: 1;
+  background: #1c1e26;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 7px 0;
+  font-size: 14px;
+  cursor: pointer;
+  color: #c9ccd9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.remote-media-btn:hover {
+  background: #292c39;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.remote-media-btn:active {
+  transform: translateY(1px);
+}
+
+.remote-media-btn.btn-play-pause {
+  background: #252835;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* TV Compatibility Badges */
+.remote-bottom-badges {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+}
+
+.compat-tag {
+  font-size: 7.5px;
+  font-weight: 800;
+  color: #636675;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  letter-spacing: 0.5px;
+}
+
+/* Responsive Scaling for smaller screens or TV resolution */
+@media (max-width: 600px) {
+  .tv-remote-overlay {
+    padding-right: 12px;
+    padding-left: 12px;
+    justify-content: center;
+  }
+  .tv-virtual-remote {
+    width: 270px;
+    padding: 14px 16px 18px;
+  }
+  .remote-dpad-rim {
+    width: 170px;
+    height: 170px;
+  }
+  .dpad-center-ok {
+    width: 66px;
+    height: 66px;
+  }
+}
+
+/* ==========================================================================
+   Click-to-Scroll On-Screen & Remote Controls
+   ========================================================================== */
+
+/* Floating On-Screen Click-to-Scroll Navigation Bar */
+.tv-click-scroll-container {
+  position: fixed;
+  bottom: 80px;
+  right: 24px;
+  z-index: 9998;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+  pointer-events: auto;
+}
+
+.tv-click-scroll-btn {
+  background: rgba(22, 23, 30, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 12px rgba(229, 9, 20, 0.25);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.tv-click-scroll-btn:hover {
+  background: #e50914;
+  border-color: #ff3b30;
+  box-shadow: 0 10px 28px rgba(229, 9, 20, 0.5), 0 0 16px rgba(229, 9, 20, 0.6);
+  transform: translateY(-2px) scale(1.03);
+}
+
+.tv-click-scroll-btn:active {
+  transform: translateY(0) scale(0.96);
+}
+
+.scroll-btn-arrow {
+  font-size: 11px;
+}
+
+.scroll-btn-text {
+  letter-spacing: 0.3px;
+}
+
+.scroll-top-btn {
+  background: rgba(30, 32, 42, 0.9);
+  color: #bbb;
+  font-size: 11px;
+  padding: 6px 12px;
+}
+
+.scroll-top-btn:hover {
+  background: #333647;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Remote Control Row-Scroll Buttons */
+.remote-scroll-row {
+  gap: 8px;
+}
+
+.remote-scroll-action-btn {
+  flex: 1;
+  background: #1d1f27;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 8px 0;
+  color: #cfd2e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+  transition: all 0.15s;
+}
+
+.remote-scroll-action-btn:hover {
+  background: #2a2c38;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.remote-scroll-action-btn:active {
+  transform: translateY(1px);
+}
+
+.remote-scroll-action-btn.scroll-down-primary {
+  background: #27212b;
+  border-color: rgba(229, 9, 20, 0.3);
+  color: #ff5252;
+}
+
+.remote-scroll-action-btn.scroll-down-primary:hover {
+  background: #e50914;
+  color: #ffffff;
+  border-color: #ff3b30;
+  box-shadow: 0 0 14px rgba(229, 9, 20, 0.5);
+}

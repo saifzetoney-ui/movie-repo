@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import './Home.css'
-import Navbar from '../../components/Navbar/Navbar'
+import TopNavbar from '../../components/TopNavbar/TopNavbar'
+import BrowseByProvider from '../../components/Providers/BrowseByProvider'
+import ProviderPage from '../ProviderPage/ProviderPage'
 import hero_banner from '../../assets/hero_banner.jpg'
 import hero_title from '../../assets/hero_title.png'
 import TitleCards from '../../components/Navbar/TitleCards/TitleCards'
@@ -10,8 +12,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import LiveTV from '../../components/LiveTV/LiveTV'
 import SurpriseRoulette from '../../components/SurpriseRoulette/SurpriseRoulette'
 import RatingWidget from '../../components/RatingWidget/RatingWidget'
+import { useAuth } from '../../context/AuthContext'
 
 const Home = () => {
+  const { selectedProviderId, setSelectedProviderId } = useAuth()
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const [isSearching, setIsSearching] = useState(false)
@@ -200,24 +204,27 @@ const Home = () => {
     return item.mediaType === searchMediaType;
   });
 
+  if (selectedProviderId) {
+    return (
+      <ProviderPage
+        providerId={selectedProviderId}
+        onBackToHome={() => setSelectedProviderId(null)}
+      />
+    );
+  }
+
   return (
     <div className="home">
-      <Navbar 
-        onSearch={(query) => setSearchQuery(query)}
-        searchQuery={searchQuery}
-        onSelectCategory={(cat) => {
-          setSelectedCategory(cat);
-          setActiveTab('Home');
-        }}
-        selectedCategory={selectedCategory}
+      <TopNavbar 
         activeTab={activeTab}
         onSelectTab={(tab) => {
           setActiveTab(tab);
           setSearchQuery('');
+          setSelectedProviderId(null);
         }}
+        searchQuery={searchQuery}
+        onSearch={(query) => setSearchQuery(query)}
         myListCount={myList.length}
-        recentlyWatchedCount={recentlyWatched.length}
-        onSurpriseMe={() => setShowRoulette(true)}
       />
 
       {searchQuery ? (
@@ -514,6 +521,9 @@ const Home = () => {
             </div>
           </div>
 
+          {/* Browse by Provider Row directly below the hero */}
+          <BrowseByProvider onSelectProvider={(pId) => setSelectedProviderId(pId)} />
+
           {/* Left-Aligned Category Bar */}
           <div className="left-category-bar">
             <span className="category-bar-title">Browse Category:</span>
@@ -640,21 +650,22 @@ const Home = () => {
               </>
             ) : (
               <>
-                {selectedCategory === 'all' || selectedCategory === 'top_rated' ? (
-                  <TitleCards title={"Blockbuster Movies"} category={"top_rated"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
-                ) : null}
-                {selectedCategory === 'all' || selectedCategory === 'popular' ? (
-                  <TitleCards title={"Only on Neplify"} category={"popular"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
-                ) : null}
-                {selectedCategory === 'all' || selectedCategory === 'upcoming' ? (
-                  <TitleCards title={"Upcoming Releases"} category={"upcoming"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
-                ) : null}
-                {selectedCategory === 'all' || selectedCategory === 'now_playing' ? (
-                  <TitleCards title={"Top Picks on Neplify"} category={"now_playing"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
-                ) : null}
-                {selectedCategory !== 'all' && selectedCategory !== 'top_rated' && selectedCategory !== 'popular' && selectedCategory !== 'upcoming' && selectedCategory !== 'now_playing' ? (
-                  <TitleCards title={`${selectedCategory} Collection`} category={"popular"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
-                ) : null}
+                {selectedCategory === 'all' ? (
+                  <>
+                    <TitleCards title={"Top Rated"} category={"top_rated"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
+                    <TitleCards title={"Trending Now"} category={"popular"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
+                    <TitleCards title={"Now Playing"} category={"now_playing"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
+                    <TitleCards title={"TV Shows"} category={"popular"} mediaType="tv" onToggleMyList={toggleMyList} myListIds={myListIds} />
+                    <TitleCards title={"Blockbuster Movies"} category={"top_rated"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
+                    <TitleCards title={"Coming Soon"} category={"upcoming"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
+                    <TitleCards title={"Popular on Neplify"} category={"popular"} mediaType="tv" onToggleMyList={toggleMyList} myListIds={myListIds} />
+                    <TitleCards title={"Recommended for You"} category={"top_rated"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
+                    <TitleCards title={"Action & Adventure"} category={"popular"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
+                    <TitleCards title={"Sci-Fi & Fantasy"} category={"now_playing"} mediaType="tv" onToggleMyList={toggleMyList} myListIds={myListIds} />
+                  </>
+                ) : (
+                  <TitleCards title={`${selectedCategory} Collection`} category={selectedCategory === 'top_rated' || selectedCategory === 'popular' || selectedCategory === 'upcoming' || selectedCategory === 'now_playing' ? selectedCategory : 'popular'} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
+                )}
               </>
             )}
           </div>

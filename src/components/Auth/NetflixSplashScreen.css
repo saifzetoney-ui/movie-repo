@@ -1,0 +1,161 @@
+/* Netflix Cinematic Splash / Intro Loading Screen */
+.netflix-splash-container {
+  position: fixed;
+  inset: 0;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  overflow: hidden;
+  user-select: none;
+  cursor: pointer;
+}
+
+.netflix-splash-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: splashFadeInScale 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Iconic Netflix Ribbon N */
+.netflix-ribbon-n {
+  position: relative;
+  width: 90px;
+  height: 140px;
+  margin-bottom: 24px;
+}
+
+.ribbon-stem {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 26px;
+  border-radius: 2px;
+}
+
+.stem-left {
+  left: 0;
+  background: #B81D24;
+  z-index: 1;
+  animation: stemGrow 0.5s ease-out forwards;
+}
+
+.stem-right {
+  right: 0;
+  background: #B81D24;
+  z-index: 1;
+  animation: stemGrow 0.5s ease-out 0.2s forwards;
+}
+
+.stem-diag {
+  left: 0;
+  top: 0;
+  width: 28px;
+  height: 144px;
+  background: #E50914;
+  transform-origin: top left;
+  transform: rotate(-31deg) scaleY(0);
+  box-shadow: 0 0 30px rgba(229, 9, 20, 0.9);
+  z-index: 2;
+  animation: diagGrow 0.6s cubic-bezier(0.2, 0, 0.2, 1) 0.4s forwards;
+}
+
+.ribbon-glow {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle, rgba(229, 9, 20, 0.5) 0%, transparent 70%);
+  filter: blur(15px);
+  opacity: 0;
+  animation: glowPulse 1.4s ease-in-out 0.6s infinite alternate;
+}
+
+/* Wordmark */
+.netflix-wordmark {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.netflix-wordmark span {
+  font-family: 'Impact', 'Bebas Neue', sans-serif;
+  color: #E50914;
+  font-size: 38px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: letterAppear 0.4s ease-out forwards;
+}
+
+.netflix-wordmark span:nth-child(1) { animation-delay: 0.6s; }
+.netflix-wordmark span:nth-child(2) { animation-delay: 0.65s; }
+.netflix-wordmark span:nth-child(3) { animation-delay: 0.7s; }
+.netflix-wordmark span:nth-child(4) { animation-delay: 0.75s; }
+.netflix-wordmark span:nth-child(5) { animation-delay: 0.8s; }
+.netflix-wordmark span:nth-child(6) { animation-delay: 0.85s; }
+.netflix-wordmark span:nth-child(7) { animation-delay: 0.9s; }
+
+/* Pulse Dots */
+.splash-loading-pulse {
+  display: flex;
+  gap: 8px;
+}
+
+.splash-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #E50914;
+  animation: dotBlink 1s infinite alternate;
+}
+
+.splash-dot:nth-child(2) { animation-delay: 0.2s; }
+.splash-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes splashFadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  85% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes stemGrow {
+  0% { transform: scaleY(0); transform-origin: top; }
+  100% { transform: scaleY(1); transform-origin: top; }
+}
+
+@keyframes diagGrow {
+  0% { transform: rotate(-31deg) scaleY(0); }
+  100% { transform: rotate(-31deg) scaleY(1); }
+}
+
+@keyframes glowPulse {
+  0% { opacity: 0.3; transform: scale(0.9); }
+  100% { opacity: 0.8; transform: scale(1.1); }
+}
+
+@keyframes letterAppear {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dotBlink {
+  0% { opacity: 0.2; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1.2); }
+}

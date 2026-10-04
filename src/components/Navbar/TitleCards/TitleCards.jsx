@@ -91,7 +91,20 @@ const TitleCards = ({ title, category, mediaType = "movie", onToggleMyList, myLi
             const isSaved = myListIds.includes(movieId);
 
             return (
-              <Link to={`/player/${movieId}?type=${mediaType}`} className="movie-card" key={card.id || index}>
+              <Link 
+                to={`/player/${movieId}?type=${mediaType}`} 
+                className="movie-card tv-focusable" 
+                tabIndex={0}
+                onFocus={(e) => {
+                  if (cardsRef.current) {
+                    const card = e.currentTarget;
+                    const container = cardsRef.current;
+                    const offset = (card.offsetLeft + card.offsetWidth / 2) - (container.clientWidth / 2);
+                    container.scrollTo({ left: offset, behavior: 'smooth' });
+                  }
+                }}
+                key={card.id || index}
+              >
                 <div className="card-media">
                   <img src={imgSrc} alt={movieTitle} loading="lazy" />
                   <div className="card-gradient"></div>

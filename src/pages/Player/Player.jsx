@@ -810,6 +810,47 @@ const Player = () => {
       else if (key === 'b') {
         navigate('/');
       }
+      // Smart TV Remote Color Buttons:
+      else if (keyCode === 403 || key === 'colorf0red') {
+        e.preventDefault();
+        navigate('/');
+        showToast("Home Screen 🏠");
+      }
+      else if (keyCode === 404 || key === 'colorf1green') {
+        e.preventDefault();
+        if (isTv) {
+          setEpisode(prev => {
+            const next = prev + 1;
+            showToast(`Next Episode ${next} ⏭️`);
+            return next;
+          });
+        } else {
+          showToast("Watchlist Updated ✨");
+        }
+      }
+      else if (keyCode === 405 || key === 'colorf2yellow') {
+        e.preventDefault();
+        setServer(prev => {
+          const next = (prev % 5) + 1;
+          const serverNames = {
+            1: "VidSrc CDN (Default)",
+            2: "VidCore HD",
+            3: "SuperEmbed Fast",
+            4: "SuperEmbed 2",
+            5: "VidLink"
+          };
+          showToast(`Server ${next}: ${serverNames[next]}`);
+          return next;
+        });
+      }
+      else if (keyCode === 406 || key === 'colorf3blue') {
+        e.preventDefault();
+        setSubEnabled(prev => {
+          const next = !prev;
+          showToast(next ? "Subtitles: ON 💬" : "Subtitles: OFF 💬");
+          return next;
+        });
+      }
       // Toggle shortcuts cheatsheet: '?'
       else if (e.key === '?') {
         setShowShortcutsModal(prev => !prev);

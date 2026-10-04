@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Hls from 'hls.js';
 import './LiveTV.css';
 import { CURATED_CHANNELS, PUBLIC_PLAYLISTS } from '../../data/liveTvChannels';
@@ -543,8 +543,16 @@ const LiveTV = () => {
               return (
                 <div
                   key={ch.id}
-                  className={`channel-card ${isSelected ? 'playing' : ''}`}
+                  tabIndex={0}
+                  role="button"
+                  className={`channel-card tv-focusable ${isSelected ? 'playing' : ''}`}
                   onClick={() => handleSelectChannel(ch)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleSelectChannel(ch);
+                    }
+                  }}
                 >
                   <div className="card-media-wrapper">
                     {ch.logo ? (
