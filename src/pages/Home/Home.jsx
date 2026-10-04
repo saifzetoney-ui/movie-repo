@@ -466,13 +466,6 @@ const Home = () => {
             <div className="hero-vignette"></div>
 
             <div className="hero-caption">
-              <div className="hero-brand-tag">
-                <span className="neplify-hero-badge">NEPLIFY</span>
-                <span className="series-label">
-                  {activeTab === 'TV Shows' ? 'SERIES' : 'ORIGINAL'}
-                </span>
-              </div>
-
               <img src={hero_title} alt="The Protector" className="caption-img" />
 
               <div className="hero-badges">
