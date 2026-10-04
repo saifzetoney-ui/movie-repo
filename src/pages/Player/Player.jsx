@@ -139,6 +139,7 @@ const Player = () => {
   });
   const [isTv, setIsTv] = useState(() => typeParam === 'tv' || initialTypeHint === 'tv');
   const [seasonsCount, setSeasonsCount] = useState(1);
+  const [seasonEpisodes, setSeasonEpisodes] = useState([]);
 
   // Position key for persistent storage
   const getPositionKey = (tvMode = isTv, sNum = season, epNum = episode) => {
@@ -913,6 +914,26 @@ const Player = () => {
     }
   };
 
+  // Load the real episode names and still/banner artwork for the selected season.
+  useEffect(() => {
+    if (!isTv || !activeId || !season) {
+      setSeasonEpisodes([]);
+      return;
+    }
+
+    let cancelled = false;
+    fetch(`https://api.themoviedb.org/3/tv/${activeId}/season/${season}?language=en-US`, options)
+      .then((res) => (res.ok ? res.json() : Promise.reject(new Error('Season unavailable'))))
+      .then((data) => {
+        if (!cancelled) setSeasonEpisodes(Array.isArray(data.episodes) ? data.episodes : []);
+      })
+      .catch(() => {
+        if (!cancelled) setSeasonEpisodes([]);
+      });
+
+    return () => { cancelled = true; };
+  }, [activeId, isTv, season]);
+
   const youtubeTimeParam = activeStartTime && activeStartTime > 0 ? `&start=${activeStartTime}` : '';
   const youtubeUrl = `https://www.youtube.com/embed/${trailerData?.key || 'u65jZ8h8m-M'}?autoplay=1&rel=0&modestbranding=1${youtubeTimeParam}`;
 
@@ -1233,23 +1254,31 @@ const Player = () => {
 
           <div className="tv-episodes-list">
             <div className="episodes-pills">
-              {Array.from({ length: 12 }, (_, i) => i + 1).map((ep) => (
+              {Array.from({ length: Math.max(12, seasonEpisodes.length) }, (_, i) => i + 1).map((ep) => {
+                const episodeData = seasonEpisodes.find((item) => item.episode_number === ep);
+                const episodeTitle = episodeData?.name || (ep === 1 ? 'Pilot' : `Episode ${ep}`);
+                const episodeImage = episodeData?.still_path
+                  ? `https://image.tmdb.org/t/p/w500${episodeData.still_path}`
+                  : (details.backdrop || details.poster);
+
+                return (
                 <button
                   key={ep}
                   className={`ep-pill ${episode === ep ? 'active' : ''}`}
                   onClick={() => setEpisode(ep)}
                 >
                   <span className="ep-thumb-wrap">
-                    <img src={details.backdrop || details.poster} alt="" className="ep-thumb" />
+                    <img src={episodeImage} alt="" className="ep-thumb" />
                     <span className="ep-play-mark">▶</span>
                   </span>
                   <span className="ep-copy">
                     <strong>E{ep}</strong>
-                    <small>{ep === 1 ? 'Pilot' : `Episode ${ep}`}</small>
+                    <small>{episodeTitle}</small>
                   </span>
                   <span className="ep-arrow">→</span>
                 </button>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
