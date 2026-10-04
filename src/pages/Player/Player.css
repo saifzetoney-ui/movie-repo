@@ -93,6 +93,16 @@
   gap: 12px;
 }
 
+/* The player keeps these capabilities internally, but the viewing header is
+   intentionally minimal and matches the reference layout. */
+.subtitles-selector-wrap,
+.sub-settings-btn,
+.shortcuts-btn,
+.share-timestamp-btn,
+.player-fullscreen-btn {
+  display: none !important;
+}
+
 /* OpenSubtitles Language Selector */
 .subtitles-selector-wrap {
   display: flex;
@@ -1605,10 +1615,17 @@
 
 /* Binge Mode active state */
 .binge-toggle-btn.active {
-  background: rgba(229, 9, 20, 0.25) !important;
-  border-color: var(--accent-red) !important;
+  background: rgba(79, 140, 255, 0.2) !important;
+  border-color: var(--accent-blue) !important;
   color: #fff !important;
-  box-shadow: 0 0 10px rgba(229, 9, 20, 0.4);
+  box-shadow: 0 0 14px rgba(79, 140, 255, 0.32);
+}
+
+.binge-toggle-btn {
+  color: #bcd4ff !important;
+  border-color: rgba(79, 140, 255, 0.45) !important;
+  border-radius: 999px !important;
+  padding-inline: 14px !important;
 }
 
 /* Share Timestamp button */
