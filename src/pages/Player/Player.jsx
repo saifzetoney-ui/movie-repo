@@ -971,7 +971,7 @@ const Player = () => {
         <div className="player-top-right">
           {/* OpenSubtitles Language Selector */}
           {playMode === 'stream' && (
-            <div className="subtitles-selector-wrap">
+            <div className="subtitles-selector-wrap" style={{ display: 'none' }}>
               <span className="sub-icon-wrap" title="Subtitles Language (Default: Arabic)">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="sub-icon">
                   <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
@@ -1020,6 +1020,7 @@ const Player = () => {
             <button 
               type="button"
               className="player-tool-btn sub-settings-btn"
+              style={{ display: 'none' }}
               onClick={() => setShowSubStyleModal(prev => !prev)}
               title="Customize Subtitle Font Size & Colors"
             >
@@ -1035,6 +1036,7 @@ const Player = () => {
           <button 
             type="button"
             className="player-tool-btn shortcuts-btn"
+            style={{ display: 'none' }}
             onClick={() => setShowShortcutsModal(prev => !prev)}
             title="Keyboard Shortcuts Cheatsheet (Press '?')"
           >
@@ -1055,6 +1057,7 @@ const Player = () => {
           <button 
             type="button"
             className="player-tool-btn share-timestamp-btn"
+            style={{ display: 'none' }}
             onClick={handleShareTimestamp}
             title="Share timestamped link with friends"
           >
@@ -1103,6 +1106,7 @@ const Player = () => {
 
           <button 
             className={`player-fullscreen-btn ${isFullscreen ? 'active' : ''}`}
+            style={{ display: 'none' }}
             onClick={toggleFullscreen}
             title={isFullscreen ? "Exit Fullscreen (Esc)" : "Fullscreen Mode"}
           >
