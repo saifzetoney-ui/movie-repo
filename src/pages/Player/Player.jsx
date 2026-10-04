@@ -1375,7 +1375,7 @@ const Player = () => {
               {recommendations.map((rec) => {
                 const recTitle = rec.title || rec.name || "Recommended";
                 const recImg = rec.backdrop_path 
-                  ? `https://image.tmdb.org/t/p/w500${rec.backdrop_path}` 
+                  ? `https://image.tmdb.org/t/p/w780${rec.backdrop_path}` 
                   : (rec.poster_path ? `https://image.tmdb.org/t/p/w500${rec.poster_path}` : details.poster);
                 const recYear = (rec.release_date || rec.first_air_date || '2024').slice(0, 4);
                 const recRating = rec.vote_average ? `${Math.round(rec.vote_average * 10)}% Match` : '96% Match';
