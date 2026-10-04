@@ -118,11 +118,16 @@
   padding: 7px 16px;
   border-radius: 9999px;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(var(--tab-lift, 0px)) scale(var(--tab-magnification, 1));
+  transform-origin: center bottom;
+  transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
   white-space: nowrap;
   display: flex;
   align-items: center;
   gap: 6px;
+  will-change: transform;
 }
 
 .island-tab-btn:hover:not(.active) {

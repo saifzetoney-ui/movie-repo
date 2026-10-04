@@ -20,6 +20,34 @@ const TopNavbar = ({
   const searchInputRef = useRef(null);
   const dropdownRef = useRef(null);
   const dropdownTimeoutRef = useRef(null);
+  const tabRefs = useRef([]);
+  const animationFrameRef = useRef(null);
+
+  const updateTabMagnification = (pointerX) => {
+    if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+    animationFrameRef.current = requestAnimationFrame(() => {
+      tabRefs.current.forEach((tab) => {
+        if (!tab) return;
+        const rect = tab.getBoundingClientRect();
+        const distance = pointerX - (rect.left + rect.width / 2);
+        const influence = Math.max(0, 1 - Math.abs(distance) / 115);
+        const scale = 1 + influence * 0.13;
+        tab.style.setProperty('--tab-magnification', scale.toFixed(3));
+        tab.style.setProperty('--tab-lift', `${(-influence * 2.5).toFixed(1)}px`);
+      });
+    });
+  };
+
+  const resetTabMagnification = () => {
+    if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+    animationFrameRef.current = requestAnimationFrame(() => {
+      tabRefs.current.forEach((tab) => {
+        if (!tab) return;
+        tab.style.setProperty('--tab-magnification', '1');
+        tab.style.setProperty('--tab-lift', '0px');
+      });
+    });
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,6 +62,7 @@ const TopNavbar = ({
       if (dropdownTimeoutRef.current) {
         clearTimeout(dropdownTimeoutRef.current);
       }
+      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
     };
   }, []);
 
@@ -237,13 +266,18 @@ const TopNavbar = ({
         </div>
 
         {/* 2. Capsule Navigation Pill */}
-        <div className="island-capsule-nav">
-          {navLinks.map((item) => {
+        <div
+          className="island-capsule-nav"
+          onPointerMove={(event) => updateTabMagnification(event.clientX)}
+          onPointerLeave={resetTabMagnification}
+        >
+          {navLinks.map((item, index) => {
             const isActive = activeTab === item.id;
             return (
               <button
                 key={item.id}
                 type="button"
+                ref={(element) => { tabRefs.current[index] = element; }}
                 className={`island-tab-btn ${isActive ? 'active' : ''}`}
                 onClick={() => handleNavClick(item.id)}
               >
