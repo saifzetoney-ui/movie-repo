@@ -1232,7 +1232,6 @@ const Player = () => {
           </div>
 
           <div className="tv-episodes-list">
-            <span className="episodes-label">Episode:</span>
             <div className="episodes-pills">
               {Array.from({ length: 12 }, (_, i) => i + 1).map((ep) => (
                 <button
@@ -1240,16 +1239,17 @@ const Player = () => {
                   className={`ep-pill ${episode === ep ? 'active' : ''}`}
                   onClick={() => setEpisode(ep)}
                 >
-                  {ep}
+                  <span className="ep-thumb-wrap">
+                    <img src={details.backdrop || details.poster} alt="" className="ep-thumb" />
+                    <span className="ep-play-mark">▶</span>
+                  </span>
+                  <span className="ep-copy">
+                    <strong>E{ep}</strong>
+                    <small>{ep === 1 ? 'Pilot' : `Episode ${ep}`}</small>
+                  </span>
+                  <span className="ep-arrow">→</span>
                 </button>
               ))}
-              <button 
-                className="ep-next-btn"
-                onClick={() => setEpisode(prev => prev + 1)}
-                title="Next Episode"
-              >
-                Next Ep &rsaquo;
-              </button>
             </div>
           </div>
         </div>

@@ -377,13 +377,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
+  flex-wrap: nowrap;
+  gap: 18px;
   margin: 18px clamp(24px, 3.5vw, 58px) 0;
-  padding: 16px 18px;
-  background: rgba(9, 11, 16, 0.72);
+  padding: 10px 14px;
+  background: rgba(9, 11, 16, 0.62);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 18px;
+  border-radius: 20px;
   max-width: 1380px;
   align-self: center;
   width: 92%;
@@ -393,19 +393,14 @@
   display: flex;
   align-items: center;
   gap: 10px;
-}
-
-.tv-season-select-wrap label {
-  font-size: 13px;
-  font-weight: 700;
-  color: #bbb;
+  flex-shrink: 0;
 }
 
 .tv-select {
   background: #151923;
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 9px 16px;
+  padding: 12px 40px 12px 20px;
   border-radius: 24px;
   font-size: 13px;
   font-weight: 600;
@@ -421,7 +416,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  flex-wrap: wrap;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .episodes-label {
@@ -434,23 +430,31 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  flex-wrap: wrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px 2px 4px;
 }
 
+.episodes-pills::-webkit-scrollbar { display: none; }
+
 .ep-pill {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(16, 19, 27, 0.88);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #ccc;
-  width: 44px;
-  height: 42px;
-  border-radius: 10px;
-  font-size: 12.5px;
-  font-weight: 700;
+  color: #f4f5f8;
+  width: 168px;
+  min-width: 168px;
+  height: 64px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 5px 10px 5px 5px;
+  text-align: left;
 }
 
 .ep-pill:hover {
@@ -460,11 +464,38 @@
 }
 
 .ep-pill.active {
-  background: linear-gradient(135deg, #ff3150, #c82452);
+  background: linear-gradient(135deg, rgba(255, 49, 80, 0.24), rgba(20, 22, 31, 0.92));
   color: #fff;
   border-color: var(--accent-red);
-  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
+  box-shadow: 0 0 18px rgba(255, 49, 80, 0.24);
 }
+
+.ep-thumb-wrap {
+  width: 56px;
+  height: 52px;
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 9px;
+  background: #242833;
+}
+
+.ep-thumb { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(.86); }
+.ep-play-mark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 14px;
+  text-shadow: 0 1px 5px #000;
+  opacity: .9;
+}
+
+.ep-copy { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.ep-copy strong { font-size: 12px; letter-spacing: .2px; }
+.ep-copy small { color: #c5c9d2; font-size: 10px; white-space: normal; line-height: 1.25; }
+.ep-arrow { margin-left: auto; color: #a8afbc; font-size: 13px; }
 
 .ep-next-btn {
   background: rgba(255, 255, 255, 0.1);
