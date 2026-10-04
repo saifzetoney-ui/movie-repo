@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="./logo.png" />
+    <link rel="apple-touch-icon" href="./logo.png" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    <!-- Smart TV & PWA Fullscreen Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Neplify" />
+    <meta name="theme-color" content="#141414" />
+    <meta name="msapplication-navbutton-color" content="#141414" />
+    
+    <title>Neplify - Watch Movies & TV Shows</title>
+
+    <!-- Samsung Tizen & LG webOS Remote Control Key Handler -->
+    <script>
+      if (window.tizen && window.tizen.tvinputdevice) {
+        try {
+          var tizenKeys = [
+            "MediaPlayPause", "MediaPlay", "MediaPause", "MediaFastForward", "MediaRewind", "MediaStop",
+            "MediaTrackNext", "MediaTrackPrevious",
+            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+            "ColorF0Red", "ColorF1Green", "ColorF2Yellow", "ColorF3Blue",
+            "ChannelUp", "ChannelDown", "Info", "Search", "Menu", "Exit"
+          ];
+          tizenKeys.forEach(function(k) {
+            try {
+              window.tizen.tvinputdevice.registerKey(k);
+            } catch(e) {}
+          });
+        } catch (e) {
+          console.warn("Tizen key registration:", e);
+        }
+      }
+    </script>
+    <script type="module" crossorigin src="/movie-repo/assets/index-CwWXRm39.js"></script>
+    <link rel="stylesheet" crossorigin href="/movie-repo/assets/index-DU0D-e26.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

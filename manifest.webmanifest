@@ -1,0 +1,20 @@
+{
+  "name": "Neplify - Movies & TV",
+  "short_name": "Neplify",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#141414",
+  "theme_color": "#e50914",
+  "description": "Stream movies and TV shows in Ultra HD on your Smart TV.",
+  "categories": ["entertainment", "video"],
+  "icons": [
+    {
+      "src": "./logo.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "com.neplify.streaming",
+  "version": "1.0.0",
+  "vendor": "Neplify",
+  "type": "web",
+  "main": "index.html",
+  "title": "Neplify",
+  "icon": "Netflic.jpg",
+  "largeIcon": "Netflic.jpg",
+  "bgImage": "background_banner.jpg",
+  "splashBackground": "#141414",
+  "resolution": "1920x1080",
+  "checkUpdateOnLaunch": true,
+  "accessibility": {
+    "supportsAudioGuidance": true
+  }
+}
