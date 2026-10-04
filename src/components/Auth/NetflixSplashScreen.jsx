@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import './NetflixSplashScreen.css';
+import logo from '../../assets/logo.png';
 import { useAuth } from '../../context/AuthContext';
 
 const NetflixSplashScreen = () => {
@@ -59,12 +60,10 @@ const NetflixSplashScreen = () => {
   return (
     <div className="netflix-splash-container" onClick={handleSplashComplete}>
       <div className="netflix-splash-center">
-        {/* Animated Netflix Iconic 'N' Ribbon */}
-        <div className="netflix-ribbon-n">
-          <div className="ribbon-stem stem-left"></div>
-          <div className="ribbon-stem stem-diag"></div>
-          <div className="ribbon-stem stem-right"></div>
-          <div className="ribbon-glow"></div>
+        {/* Iconic Glowing 'N' Logo */}
+        <div className="splash-logo-wrap">
+          <img src={logo} alt="Neplify Logo" className="splash-n-logo" />
+          <div className="splash-logo-glow"></div>
         </div>
 
         <div className="netflix-wordmark">

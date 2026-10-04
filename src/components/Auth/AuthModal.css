@@ -40,20 +40,28 @@
   align-items: center;
 }
 
-.auth-logo {
-  height: 45px;
+.auth-brand-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.auth-brand-logo-img {
+  width: 48px;
+  height: 48px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
+  border-radius: 10px;
+  filter: drop-shadow(0 0 16px rgba(0, 168, 255, 0.8));
 }
 
 .neplify-brand-logo {
-  color: #4f8cff;
+  color: #38bdf8;
   font-family: 'Impact', 'Bebas Neue', 'Arial Black', sans-serif;
-  font-size: 34px;
+  font-size: 32px;
   font-weight: 900;
   letter-spacing: 3px;
   text-transform: uppercase;
-  text-shadow: 0 2px 18px rgba(79, 140, 255, 0.42);
+  text-shadow: 0 0 18px rgba(56, 189, 248, 0.65);
   user-select: none;
 }
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import './Player.css'
+import logo from '../../assets/logo.png'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import RatingWidget from '../../components/RatingWidget/RatingWidget'
 import AutoplayOverlay from '../../components/AutoplayOverlay/AutoplayOverlay'
@@ -963,6 +964,7 @@ const Player = () => {
         </Link>
 
         <Link to="/" className="player-branding" title="Return to Browse">
+          <img src={logo} alt="Neplify" className="player-brand-logo-img" />
           <span className="player-n">NEPLIFY</span>
           <span className="player-title-preview">{details.title}</span>
         </Link>

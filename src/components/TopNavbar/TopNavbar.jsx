@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './TopNavbar.css';
+import logo from '../../assets/logo.png';
 import { useAuth } from '../../context/AuthContext';
 
 const TopNavbar = ({
@@ -149,6 +150,7 @@ const TopNavbar = ({
     <header className={`top-navbar-wrapper ${isScrolled ? 'scrolled' : ''}`}>
       {/* Brand logo on left */}
       <div className="navbar-brand-corner" onClick={() => handleNavClick('Home')}>
+        <img src={logo} alt="Neplify" className="brand-logo-img" />
         <span className="neplify-brand-logo">NEPLIFY</span>
       </div>
 

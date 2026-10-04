@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './Navbar.css'
+import logo from '../../assets/logo.png'
 import profile_img from '../../assets/profile_img.png'
 
 const Navbar = ({ onSearch, searchQuery = '', onSelectCategory, selectedCategory, activeTab = 'Home', onSelectTab, myListCount = 0, recentlyWatchedCount = 0, onSurpriseMe }) => {
@@ -118,7 +119,7 @@ const Navbar = ({ onSearch, searchQuery = '', onSelectCategory, selectedCategory
           className="sidebar-brand" 
           onClick={() => { setActiveTab('Home'); onSelectCategory && onSelectCategory('all'); }}
         >
-          <span className="brand-n">N</span>
+          <img src={logo} alt="Neplify" className="brand-n-img" />
           {!collapsed && <span className="brand-full">EPLIFY</span>}
         </div>
         <button 

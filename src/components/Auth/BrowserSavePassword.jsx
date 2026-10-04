@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './BrowserSavePassword.css';
+import logo from '../../assets/logo.png';
 import { useAuth } from '../../context/AuthContext';
 import AuthModal from './AuthModal';
 
@@ -24,7 +25,7 @@ const BrowserSavePassword = () => {
       {/* Browser UI overlay mockup */}
       <div className="browser-top-bar-mock">
         <div className="browser-tab">
-          <span className="browser-tab-favicon">🎬</span>
+          <img src={logo} alt="Neplify" className="browser-tab-logo-icon" />
           <span className="browser-tab-title">Neplify - Watch Movies & TV Shows</span>
           <span className="browser-tab-close">✕</span>
         </div>

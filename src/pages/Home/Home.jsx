@@ -3,6 +3,7 @@ import './Home.css'
 import TopNavbar from '../../components/TopNavbar/TopNavbar'
 import BrowseByProvider from '../../components/Providers/BrowseByProvider'
 import ProviderPage from '../ProviderPage/ProviderPage'
+import logo from '../../assets/logo.png'
 import hero_banner from '../../assets/hero_banner.jpg'
 import hero_title from '../../assets/hero_title.png'
 import TitleCards from '../../components/Navbar/TitleCards/TitleCards'
@@ -466,6 +467,12 @@ const Home = () => {
             <div className="hero-vignette"></div>
 
             <div className="hero-caption">
+              <div className="hero-brand-tag">
+                <img src={logo} alt="Neplify" className="hero-brand-logo-img" />
+                <span className="series-label">
+                  {activeTab === 'TV Shows' ? 'SERIES' : 'ORIGINAL'}
+                </span>
+              </div>
               <img src={hero_title} alt="The Protector" className="caption-img" />
 
               <div className="hero-badges">

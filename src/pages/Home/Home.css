@@ -1143,3 +1143,27 @@ button.explore-all,
     height: 220px;
   }
 }
+
+
+.hero-brand-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.hero-brand-logo-img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  border-radius: 5px;
+  filter: drop-shadow(0 0 10px rgba(0, 168, 255, 0.85));
+}
+
+.hero-brand-tag .series-label {
+  font-size: 13px;
+  font-weight: 800;
+  color: #38bdf8;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+}

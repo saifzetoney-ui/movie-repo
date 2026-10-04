@@ -1700,3 +1700,18 @@
   display: flex;
   flex-direction: column;
 }
+
+
+.player-branding {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.player-brand-logo-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 6px;
+  filter: drop-shadow(0 0 8px rgba(0, 168, 255, 0.75));
+}

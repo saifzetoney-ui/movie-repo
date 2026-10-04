@@ -43,7 +43,10 @@ const AuthModal = () => {
       </div>
 
       <header className="auth-header">
-        <span className="neplify-brand-logo">NEPLIFY</span>
+        <div className="auth-brand-badge">
+          <img src={logo} alt="Neplify" className="auth-brand-logo-img" />
+          <span className="neplify-brand-logo">NEPLIFY</span>
+        </div>
       </header>
 
       <main className="auth-card-container">
