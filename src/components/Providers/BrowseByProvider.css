@@ -54,58 +54,120 @@
 
 /* Provider Card */
 .provider-card {
-  flex: 0 0 170px;
-  height: 96px;
-  background: rgba(30, 30, 30, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  flex: 0 0 248px;
+  height: 148px;
+  background: #11151d;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s, border-color 0.25s, background-color 0.25s;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(10px);
+  isolation: isolate;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s, border-color 0.25s;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.36);
+}
+
+.provider-card::before,
+.provider-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.provider-card::before {
+  z-index: -2;
+  background-image: var(--provider-banner);
+  background-size: cover;
+  background-position: center 35%;
+  transform: scale(1.02);
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
+  filter: saturate(0.9);
+}
+
+.provider-card::after {
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(5, 7, 12, 0.32) 0%, rgba(5, 7, 12, 0.12) 34%, rgba(5, 7, 12, 0.92) 100%);
 }
 
 .provider-card:hover {
-  transform: translateY(-5px) scale(1.04);
+  transform: translateY(-4px);
   border-color: var(--brand-accent, #fff);
-  box-shadow: 0 10px 25px var(--brand-glow, rgba(255, 255, 255, 0.2)), 0 2px 6px rgba(0, 0, 0, 0.8);
-  background: rgba(40, 40, 40, 0.95);
+  box-shadow: 0 12px 30px var(--brand-glow, rgba(255, 255, 255, 0.2)), 0 4px 12px rgba(0, 0, 0, 0.55);
+}
+
+.provider-card:hover::before {
+  transform: scale(1.08);
+  filter: saturate(1.1);
+}
+
+.provider-card:focus-visible {
+  outline: 2px solid var(--brand-accent, #fff);
+  outline-offset: 3px;
 }
 
 .provider-card-inner {
+  position: relative;
+  z-index: 1;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 14px 16px 10px;
+  justify-content: flex-end;
+  align-items: stretch;
+  padding: 13px 15px 12px;
 }
 
 .provider-logo-display {
   display: flex;
   align-items: center;
-  height: 42px;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: auto;
+  min-height: 30px;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.8));
 }
 
 .provider-card-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 6px;
+  gap: 8px;
+  border: 0;
+  padding: 0;
 }
 
 .provider-name-tag {
-  font-size: 11px;
-  font-weight: 600;
-  color: #a3a3a3;
+  margin-top: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 
-.provider-card:hover .provider-name-tag {
+.provider-featured-label {
+  padding: 4px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(10, 13, 19, 0.38);
   color: #fff;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.provider-featured-title {
+  min-width: 0;
+  overflow: hidden;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
 }
 
 .provider-explore-arrow {
@@ -117,6 +179,12 @@
 .provider-card:hover .provider-explore-arrow {
   color: var(--brand-accent, #fff);
   transform: translateX(3px);
+}
+
+.provider-explore-arrow {
+  flex: 0 0 auto;
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
 }
 
 /* Provider Brand Specific Typography / Logos */
@@ -311,8 +379,8 @@
     margin-top: 0;
   }
   .provider-card {
-    flex: 0 0 140px;
-    height: 84px;
+    flex: 0 0 218px;
+    height: 132px;
   }
   .provider-arrow {
     display: none;

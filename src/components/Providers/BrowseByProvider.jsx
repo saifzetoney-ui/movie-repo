@@ -121,30 +121,45 @@ const BrowseByProvider = ({ onSelectProvider }) => {
 
         <div className="provider-cards-track" ref={rowRef}>
           {providersList.map((provider) => (
-            <div
-              key={provider.id}
-              className={`provider-card provider-${provider.id}`}
-              onClick={() => onSelectProvider && onSelectProvider(provider.id)}
-              style={{
-                '--brand-accent': provider.accentColor,
-                '--brand-glow': provider.glowColor
-              }}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') onSelectProvider && onSelectProvider(provider.id);
-              }}
-            >
-              <div className="provider-card-inner">
-                <div className="provider-logo-display">
-                  <ProviderLogoIcon type={provider.logoSvg} />
+            (() => {
+              const featured = provider.sections?.flatMap(section => section.items || []).find(item => item.image);
+              const banner = featured?.image || provider.bgHero;
+              const title = provider.featuredTitle || featured?.title || provider.name;
+
+              return (
+                <div
+                  key={provider.id}
+                  className={`provider-card provider-${provider.id}`}
+                  onClick={() => onSelectProvider && onSelectProvider(provider.id)}
+                  style={{
+                    '--brand-accent': provider.accentColor,
+                    '--brand-glow': provider.glowColor,
+                    '--provider-banner': `url("${banner}")`
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Browse ${provider.name}, featuring ${title}`}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      onSelectProvider?.(provider.id);
+                    }
+                  }}
+                >
+                  <div className="provider-card-inner">
+                    <div className="provider-logo-display">
+                      <ProviderLogoIcon type={provider.logoSvg} />
+                      <span className="provider-featured-label">FEATURED</span>
+                    </div>
+                    <div className="provider-card-footer">
+                      <span className="provider-featured-title">{title}</span>
+                      <span className="provider-explore-arrow" aria-hidden="true">→</span>
+                    </div>
+                    <span className="provider-name-tag">{provider.name}</span>
+                  </div>
                 </div>
-                <div className="provider-card-footer">
-                  <span className="provider-name-tag">{provider.name}</span>
-                  <span className="provider-explore-arrow">→</span>
-                </div>
-              </div>
-            </div>
+              );
+            })()
           ))}
         </div>
 
