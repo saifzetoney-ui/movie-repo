@@ -73,7 +73,7 @@
   font-size: 22px;
   letter-spacing: 2px;
   font-family: 'Impact', 'Bebas Neue', 'Inter', sans-serif;
-  text-shadow: 0 2px 8px rgba(229, 9, 20, 0.5);
+  text-shadow: 0 2px 8px rgba(79, 140, 255, 0.5);
 }
 
 .player-title-preview {
@@ -464,10 +464,10 @@
 }
 
 .ep-pill.active {
-  background: linear-gradient(135deg, rgba(255, 49, 80, 0.24), rgba(20, 22, 31, 0.92));
+  background: linear-gradient(135deg, rgba(79, 140, 255, 0.24), rgba(20, 22, 31, 0.92));
   color: #fff;
-  border-color: var(--accent-red);
-  box-shadow: 0 0 18px rgba(255, 49, 80, 0.24);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 18px rgba(79, 140, 255, 0.24);
 }
 
 .ep-thumb-wrap {

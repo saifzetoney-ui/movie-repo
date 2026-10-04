@@ -54,11 +54,11 @@
 
 .neplify-hero-badge {
   font-family: 'Impact', 'Bebas Neue', 'Inter', sans-serif;
-  color: var(--accent-red);
+  color: var(--accent-blue);
   font-weight: 900;
   font-size: 22px;
   letter-spacing: 2px;
-  text-shadow: 0 2px 10px rgba(229, 9, 20, 0.6);
+  text-shadow: 0 2px 10px rgba(79, 140, 255, 0.6);
 }
 
 .series-label {
@@ -261,10 +261,10 @@
 }
 
 .category-pill.active {
-  background: linear-gradient(135deg, #e50914 0%, #b80710 100%);
+  background: linear-gradient(135deg, #4f8cff 0%, #2f6fe0 100%);
   color: #fff;
   border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 6px 20px rgba(229, 9, 20, 0.55);
+  box-shadow: 0 6px 20px rgba(79, 140, 255, 0.55);
   transform: translateY(-3px) scale(1.04);
 }
 

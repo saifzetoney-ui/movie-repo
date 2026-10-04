@@ -32,13 +32,13 @@
 }
 
 .neplify-brand-logo {
-  color: #ff3150;
+  color: #4f8cff;
   font-family: 'Impact', 'Bebas Neue', 'Arial Black', sans-serif;
   font-size: 26px;
   font-weight: 900;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  text-shadow: 0 2px 10px rgba(229, 9, 20, 0.7);
+  text-shadow: 0 2px 10px rgba(79, 140, 255, 0.7);
   user-select: none;
   display: inline-block;
   transition: transform 0.2s ease;
