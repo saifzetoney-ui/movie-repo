@@ -57,14 +57,6 @@ export const referenceMovies = [
     release_date: "2025-07-02"
   },
   {
-    id: 872906,
-    title: "Jawan",
-    poster_path: "https://image.tmdb.org/t/p/w500/jFt1g94utjj2ymSpBhVOUuoJ0CU.jpg",
-    media_type: "movie",
-    vote_average: 7.6,
-    release_date: "2023-09-07"
-  },
-  {
     id: 157336,
     title: "Interstellar",
     poster_path: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
