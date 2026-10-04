@@ -1,5 +1,5 @@
-/* Netflix Fixed/Dynamic Top Navigation Bar */
-.top-navbar {
+/* Floating Island Navigation Bar - Exact Match to Reference Image */
+.top-navbar-wrapper {
   position: fixed;
   top: 0;
   left: 0;
@@ -10,50 +10,37 @@
   justify-content: space-between;
   padding: 0 4%;
   z-index: 1000;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 100%);
-  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
   user-select: none;
+  box-sizing: border-box;
 }
 
-.top-navbar.navbar-scrolled {
-  background-color: #141414;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+.top-navbar-wrapper.scrolled {
+  background-color: rgba(14, 14, 16, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.8);
 }
 
-.navbar-left {
-  display: flex;
-  align-items: center;
-  gap: 36px;
-}
-
-.navbar-brand-logo {
+/* Brand logo in top left corner */
+.navbar-brand-corner {
   cursor: pointer;
   display: flex;
   align-items: center;
-}
-
-.brand-logo-img {
-  height: 30px;
-  object-fit: contain;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.8));
-  transition: transform 0.2s ease;
-}
-
-.brand-logo-img:hover {
-  transform: scale(1.02);
+  z-index: 2;
 }
 
 .neplify-brand-logo {
   color: #E50914;
   font-family: 'Impact', 'Bebas Neue', 'Arial Black', sans-serif;
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 900;
-  letter-spacing: 2px;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
   text-shadow: 0 2px 10px rgba(229, 9, 20, 0.7);
   user-select: none;
   display: inline-block;
-  cursor: pointer;
   transition: transform 0.2s ease;
 }
 
@@ -61,216 +48,193 @@
   transform: scale(1.03);
 }
 
-/* Nav Links */
-.navbar-links-list {
+/* Floating Center Island (Avatar + Capsule Pill + Search Circle) */
+.nav-floating-island {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 20px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  gap: 10px;
+  z-index: 1;
 }
 
-.nav-link-btn {
+/* 1. Circular Avatar Button */
+.island-avatar-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.island-avatar-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  padding: 0;
   background: transparent;
   border: none;
-  color: #e5e5e5;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.island-avatar-btn:hover {
+  transform: scale(1.08);
+}
+
+.island-avatar-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* 2. Dark Frosted Capsule Navigation Pill */
+.island-capsule-nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(38, 40, 48, 0.78);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  padding: 4px 6px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}
+
+.island-tab-btn {
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 14px;
   font-weight: 500;
+  padding: 7px 16px;
+  border-radius: 9999px;
   cursor: pointer;
-  transition: color 0.3s ease;
-  padding: 6px 0;
-  position: relative;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.nav-link-btn:hover {
-  color: #b3b3b3;
+.island-tab-btn:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
-.nav-link-btn.active {
-  color: #fff;
+/* Active tab is a solid white pill with black text matching user reference image */
+.island-tab-btn.active {
+  background: #ffffff;
+  color: #111111;
   font-weight: 700;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
 }
 
-.nav-link-btn.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background-color: #E50914;
-  border-radius: 2px;
-}
-
-.nav-badge-count {
+.island-tab-badge {
   background: #E50914;
   color: #fff;
   font-size: 10px;
   font-weight: 700;
   padding: 1px 6px;
   border-radius: 10px;
-  line-height: 1.2;
 }
 
-/* Right Section */
-.navbar-right {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-}
-
-/* Expanding Search Bar */
-.nav-search-container {
-  display: flex;
-  align-items: center;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-  padding: 2px 4px;
-}
-
-.nav-search-container.search-expanded {
-  background: rgba(0, 0, 0, 0.75);
-  border-color: rgba(255, 255, 255, 0.85);
-  padding-left: 6px;
-}
-
-.search-toggle-btn {
-  background: transparent;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  transition: transform 0.2s;
-}
-
-.search-toggle-btn:hover {
-  transform: scale(1.1);
-}
-
-.search-input-field {
-  width: 0;
-  opacity: 0;
-  border: none;
-  background: transparent;
-  color: #fff;
-  font-size: 14px;
-  outline: none;
-  transition: width 0.3s ease, opacity 0.3s ease;
-  padding: 0;
-}
-
-.search-expanded .search-input-field {
-  width: 220px;
-  opacity: 1;
-  padding: 4px 8px;
-}
-
-.search-clear-btn {
-  background: transparent;
-  border: none;
-  color: #a3a3a3;
-  cursor: pointer;
-  font-size: 12px;
-  padding: 4px 8px;
-}
-
-.search-clear-btn:hover {
-  color: #fff;
-}
-
-/* Icons */
-.nav-icon-btn {
-  background: transparent;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* 3. Circular Search Button */
+.island-search-wrapper {
   position: relative;
-  padding: 4px;
-  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
 }
 
-.nav-icon-btn:hover {
-  opacity: 0.8;
-}
-
-.notification-dot {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 7px;
-  height: 7px;
-  background-color: #E50914;
+.island-search-btn {
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-}
-
-/* Profile Dropdown */
-.navbar-profile-control {
-  position: relative;
+  background: rgba(38, 40, 48, 0.78);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  padding: 10px 0;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  transition: all 0.2s ease;
 }
 
-.profile-trigger-btn {
-  background: transparent;
-  border: none;
+.island-search-btn:hover {
+  background: rgba(50, 52, 62, 0.95);
+  transform: scale(1.08);
+}
+
+.island-search-drawer {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  background: rgba(22, 22, 26, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  padding: 4px 12px;
   display: flex;
   align-items: center;
   gap: 8px;
-  cursor: pointer;
-  padding: 4px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(16px);
+  animation: fadeInDown 0.15s ease-out;
 }
 
-.navbar-avatar-thumbnail {
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
-  object-fit: cover;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  transition: border-color 0.2s;
-}
-
-.profile-trigger-btn:hover .navbar-avatar-thumbnail {
-  border-color: #fff;
-}
-
-.caret-arrow {
+.island-search-input {
+  width: 220px;
+  background: transparent;
+  border: none;
+  outline: none;
   color: #fff;
-  font-size: 10px;
-  transition: transform 0.2s ease;
+  font-size: 14px;
+  padding: 6px 0;
 }
 
-.caret-arrow.open {
-  transform: rotate(180deg);
+.island-search-input::placeholder {
+  color: #8c8c8c;
 }
 
+.island-search-clear {
+  background: transparent;
+  border: none;
+  color: #8c8c8c;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 2px 4px;
+}
+
+.island-search-clear:hover {
+  color: #fff;
+}
+
+/* Profile Dropdown Menu */
 .profile-dropdown-menu {
   position: absolute;
   top: calc(100% + 2px);
-  right: 0;
+  left: 0;
   width: 210px;
   background: rgba(0, 0, 0, 0.96);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
+  border-radius: 8px;
   padding: 12px 0;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.95);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.95);
   z-index: 1001;
-  animation: fadeInMenu 0.15s ease-out;
+  animation: fadeInDown 0.15s ease-out;
 }
 
-/* Invisible hover bridge that connects the trigger button to the menu */
+/* Invisible hover bridge to eliminate any mouse-exit dead zone */
 .profile-dropdown-menu::before {
   content: '';
   position: absolute;
@@ -284,10 +248,10 @@
 .dropdown-arrow-top {
   position: absolute;
   top: -6px;
-  right: 20px;
+  left: 14px;
   width: 10px;
   height: 10px;
-  background: rgba(0, 0, 0, 0.94);
+  background: rgba(0, 0, 0, 0.96);
   border-left: 1px solid rgba(255, 255, 255, 0.15);
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   transform: rotate(45deg);
@@ -303,7 +267,7 @@
 .dropdown-avatar-sm {
   width: 28px;
   height: 28px;
-  border-radius: 4px;
+  border-radius: 50%;
   object-fit: cover;
 }
 
@@ -324,6 +288,12 @@
   font-weight: 600;
 }
 
+.dropdown-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  margin: 8px 0;
+}
+
 .dropdown-section-title {
   display: block;
   font-size: 11px;
@@ -333,22 +303,7 @@
   letter-spacing: 0.5px;
 }
 
-.profile-switch-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 16px;
-  font-size: 13px;
-  color: #ccc;
-  cursor: pointer;
-  transition: background-color 0.15s, color 0.15s;
-}
-
-.profile-switch-row:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-}
-
+.profile-switch-row,
 .dropdown-action-row {
   display: flex;
   align-items: center;
@@ -360,6 +315,7 @@
   transition: background-color 0.15s, color 0.15s;
 }
 
+.profile-switch-row:hover,
 .dropdown-action-row:hover {
   background: rgba(255, 255, 255, 0.08);
   color: #fff;
@@ -369,7 +325,7 @@
   width: 24px;
   height: 24px;
   border: 1px dashed #8c8c8c;
-  border-radius: 4px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -381,12 +337,6 @@
   font-size: 14px;
 }
 
-.dropdown-divider {
-  height: 1px;
-  background: rgba(255, 255, 255, 0.12);
-  margin: 8px 0;
-}
-
 .logout-row {
   color: #e5e5e5;
   font-weight: 600;
@@ -396,8 +346,8 @@
   color: #E50914;
 }
 
-/* Mobile Menu Button */
-.mobile-menu-btn {
+/* Mobile Toggle */
+.mobile-island-toggle {
   display: none;
   background: transparent;
   border: none;
@@ -410,19 +360,18 @@
   display: none;
 }
 
-/* Animations */
-@keyframes fadeInMenu {
+@keyframes fadeInDown {
   from { opacity: 0; transform: translateY(-6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 /* Responsive */
 @media (max-width: 900px) {
-  .navbar-links-list {
+  .nav-floating-island {
     display: none;
   }
 
-  .mobile-menu-btn {
+  .mobile-island-toggle {
     display: block;
   }
 
@@ -476,9 +425,5 @@
 
   .mobile-nav-btn.signout-btn {
     color: #E50914;
-  }
-
-  .search-expanded .search-input-field {
-    width: 140px;
   }
 }

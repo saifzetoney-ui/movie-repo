@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './TopNavbar.css';
-import logo from '../../assets/logo.png';
 import { useAuth } from '../../context/AuthContext';
 
 const TopNavbar = ({
@@ -118,117 +117,39 @@ const TopNavbar = ({
   };
 
   return (
-    <nav className={`top-navbar ${isScrolled ? 'navbar-scrolled' : ''}`}>
-      <div className="navbar-left">
-        {/* Mobile Hamburger Button */}
-        <button
-          className="mobile-menu-btn"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle navigation menu"
-        >
-          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none">
-            {mobileMenuOpen ? (
-              <path d="M18 6L6 18M6 6l12 12" />
-            ) : (
-              <path d="M3 12h18M3 6h18M3 18h18" />
-            )}
-          </svg>
-        </button>
-
-        {/* Brand Logo */}
-        <div className="navbar-brand-logo" onClick={() => handleNavClick('Home')}>
-          <span className="neplify-brand-logo">NEPLIFY</span>
-        </div>
-
-        {/* Desktop Navigation Links */}
-        <ul className="navbar-links-list">
-          {navLinks.map((item) => (
-            <li key={item.id} className="nav-item">
-              <button
-                type="button"
-                className={`nav-link-btn ${activeTab === item.id ? 'active' : ''}`}
-                onClick={() => handleNavClick(item.id)}
-              >
-                <span>{item.label}</span>
-                {item.badge > 0 && <span className="nav-badge-count">{item.badge}</span>}
-              </button>
-            </li>
-          ))}
-        </ul>
+    <header className={`top-navbar-wrapper ${isScrolled ? 'scrolled' : ''}`}>
+      {/* Brand logo on left */}
+      <div className="navbar-brand-corner" onClick={() => handleNavClick('Home')}>
+        <span className="neplify-brand-logo">NEPLIFY</span>
       </div>
 
-      <div className="navbar-right">
-        {/* Expanding Search Bar */}
-        <div className={`nav-search-container ${searchOpen ? 'search-expanded' : ''}`}>
-          <button
-            type="button"
-            className="search-toggle-btn"
-            onClick={handleSearchToggle}
-            aria-label="Search"
-          >
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-          </button>
-
-          <input
-            ref={searchInputRef}
-            type="text"
-            className="search-input-field"
-            placeholder="Titles, people, genres..."
-            value={searchValue}
-            onChange={handleSearchInputChange}
-          />
-
-          {searchValue && (
-            <button
-              type="button"
-              className="search-clear-btn"
-              onClick={handleClearSearch}
-              aria-label="Clear search"
-            >
-              ✕
-            </button>
-          )}
-        </div>
-
-        {/* Notifications Icon */}
-        <button type="button" className="nav-icon-btn notifications-btn" aria-label="Notifications">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-          </svg>
-          <span className="notification-dot"></span>
-        </button>
-
-        {/* Profile Avatar and Dropdown Menu */}
+      {/* Floating Center Island as shown in the reference image */}
+      <nav className="nav-floating-island">
+        {/* 1. Circular Avatar */}
         <div
-          className="navbar-profile-control"
+          className="island-avatar-wrapper"
           ref={dropdownRef}
           onMouseEnter={handleProfileMouseEnter}
           onMouseLeave={handleProfileMouseLeave}
         >
           <button
             type="button"
-            className="profile-trigger-btn"
+            className="island-avatar-btn"
             onClick={handleProfileClick}
             aria-label="Profile menu"
           >
             <img
               src={currentProfile?.avatar?.url}
               alt={currentProfile?.name || 'Profile'}
-              className="navbar-avatar-thumbnail"
-              style={{ backgroundColor: currentProfile?.avatar?.bgColor || '#E50914' }}
+              className="island-avatar-img"
             />
-            <span className={`caret-arrow ${profileDropdownOpen ? 'open' : ''}`}>▼</span>
           </button>
 
+          {/* Profile Dropdown */}
           {profileDropdownOpen && (
             <div className="profile-dropdown-menu">
               <div className="dropdown-arrow-top"></div>
 
-              {/* Current Active Profile Header */}
               <div className="current-profile-banner">
                 <img
                   src={currentProfile?.avatar?.url}
@@ -243,7 +164,6 @@ const TopNavbar = ({
 
               <div className="dropdown-divider"></div>
 
-              {/* Other Profiles for quick switching */}
               <div className="other-profiles-section">
                 <span className="dropdown-section-title">Switch Profile</span>
                 {profiles
@@ -267,7 +187,6 @@ const TopNavbar = ({
                   ))}
               </div>
 
-              {/* Add Profile action */}
               <div
                 className="dropdown-action-row"
                 onClick={() => {
@@ -316,9 +235,74 @@ const TopNavbar = ({
             </div>
           )}
         </div>
-      </div>
 
-      {/* Mobile Slide-Down Navigation Menu */}
+        {/* 2. Capsule Navigation Pill */}
+        <div className="island-capsule-nav">
+          {navLinks.map((item) => {
+            const isActive = activeTab === item.id;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                className={`island-tab-btn ${isActive ? 'active' : ''}`}
+                onClick={() => handleNavClick(item.id)}
+              >
+                <span>{item.label}</span>
+                {item.badge > 0 && <span className="island-tab-badge">{item.badge}</span>}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* 3. Circular Search Button & Expanding Search */}
+        <div className={`island-search-wrapper ${searchOpen ? 'search-open' : ''}`}>
+          <button
+            type="button"
+            className="island-search-btn"
+            onClick={handleSearchToggle}
+            aria-label="Search"
+          >
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+
+          {searchOpen && (
+            <div className="island-search-drawer">
+              <input
+                ref={searchInputRef}
+                type="text"
+                className="island-search-input"
+                placeholder="Search titles..."
+                value={searchValue}
+                onChange={handleSearchInputChange}
+              />
+              {searchValue && (
+                <button
+                  type="button"
+                  className="island-search-clear"
+                  onClick={handleClearSearch}
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      </nav>
+
+      {/* Mobile Hamburger Drawer for small screens */}
+      <button
+        className="mobile-island-toggle"
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        aria-label="Mobile navigation"
+      >
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" strokeWidth="2" fill="none">
+          {mobileMenuOpen ? <path d="M18 6L6 18M6 6l12 12" /> : <path d="M3 12h18M3 6h18M3 18h18" />}
+        </svg>
+      </button>
+
       {mobileMenuOpen && (
         <div className="mobile-nav-drawer">
           <ul className="mobile-nav-list">
@@ -362,7 +346,7 @@ const TopNavbar = ({
           </ul>
         </div>
       )}
-    </nav>
+    </header>
   );
 };
 
