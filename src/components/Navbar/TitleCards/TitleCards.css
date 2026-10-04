@@ -1,5 +1,5 @@
 .title-cards-section {
-  margin: 40px 0;
+  margin: 34px 0;
   position: relative;
 }
 
@@ -12,9 +12,9 @@
 }
 
 .section-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #e5e5e5;
+  font-size: 21px;
+  font-weight: 800;
+  color: #f4f5f8;
   letter-spacing: 0.2px;
   transition: color 0.2s ease;
 }
@@ -51,7 +51,7 @@ button.explore-all {
 
 .card-list {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   overflow-x: auto;
   scroll-behavior: smooth;
   padding: 12px 4% 20px 0;
@@ -66,6 +66,9 @@ button.explore-all {
 /* Movie Card - Vertical 2:3 Aspect Ratio matching reference */
 .poster-card-item {
   flex: 0 0 170px;
+  width: 170px;
+  min-width: 170px;
+  max-width: 170px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -75,12 +78,13 @@ button.explore-all {
 
 .poster-media-box {
   position: relative;
-  width: 100%;
+  width: 170px;
+  height: 255px;
   aspect-ratio: 2 / 3;
   border-radius: 12px;
   overflow: hidden;
   background: #18181c;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.38);
   border: 1px solid rgba(255, 255, 255, 0.08);
   transition: transform 0.28s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.28s ease, border-color 0.25s ease;
   display: block;
@@ -180,10 +184,12 @@ button.explore-all {
 
 /* Left-aligned clean title directly underneath the card matching reference */
 .poster-below-title {
+  width: 100%;
+  max-width: 170px;
   margin: 9px 0 0 2px;
   font-size: 14px;
   font-weight: 500;
-  color: #ffffff;
+  color: #dfe2ea;
   letter-spacing: 0.15px;
   white-space: nowrap;
   overflow: hidden;
@@ -377,8 +383,16 @@ button.explore-all {
 @media (max-width: 800px) {
   .poster-card-item {
     flex: 0 0 145px;
+    width: 145px;
+    min-width: 145px;
+    max-width: 145px;
+  }
+  .poster-media-box {
+    width: 145px;
+    height: 217px;
   }
   .poster-below-title {
+    max-width: 145px;
     font-size: 13px;
   }
   .movie-card {
@@ -396,8 +410,16 @@ button.explore-all {
 @media (max-width: 500px) {
   .poster-card-item {
     flex: 0 0 120px;
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+  }
+  .poster-media-box {
+    width: 120px;
+    height: 180px;
   }
   .poster-below-title {
+    max-width: 120px;
     font-size: 12px;
     margin-top: 6px;
   }
