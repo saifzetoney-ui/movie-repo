@@ -1,6 +1,19 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script>
+      (function () {
+        var appBase = window.location.hostname.endsWith('github.io') ? '/movie-repo/' : '/';
+        var base = document.createElement('base');
+        base.href = appBase;
+        document.head.appendChild(base);
+
+        var route = new URLSearchParams(window.location.search).get('__spa_route');
+        if (route && route.charAt(0) === '/' && route.charAt(1) !== '/') {
+          window.history.replaceState(null, '', route);
+        }
+      })();
+    </script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="./logo.png" />
     <link rel="apple-touch-icon" href="./logo.png" />

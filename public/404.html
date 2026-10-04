@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loading Neplify…</title>
+    <script>
+      (function () {
+        var appBase = window.location.hostname.endsWith('github.io') ? '/movie-repo/' : '/';
+        var route = window.location.pathname + window.location.search + window.location.hash;
+        window.location.replace(appBase + '?__spa_route=' + encodeURIComponent(route));
+      })();
+    </script>
+  </head>
+  <body style="margin:0;background:#090b10;color:#fff;font:16px sans-serif">
+    <p style="padding:24px">Opening Neplify…</p>
+  </body>
+</html>
