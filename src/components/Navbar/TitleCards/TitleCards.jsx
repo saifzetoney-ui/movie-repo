@@ -1,14 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './TitleCards.css';
 import { referenceMovies } from '../../../data/referenceMovies';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CircularCarousel from '../../CircularCarousel/CircularCarousel';
 
 const TitleCards = ({ title = "Movies", category = "popular", mediaType = "movie", onToggleMyList, myListIds = [] }) => {
   const [apiData, setApiData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const cardsRef = useRef();
+  const navigate = useNavigate();
 
   const options = {
     method: 'GET',
@@ -33,11 +35,8 @@ const TitleCards = ({ title = "Movies", category = "popular", mediaType = "movie
   };
 
   useEffect(() => {
-    const isMoviesRow = title === 'Movies' || title === 'Blockbuster Movies';
-    if (isMoviesRow) {
-      setApiData(referenceMovies);
-      return;
-    }
+    const isMoviesRow = mediaType === 'movie' && (title === 'Movies' || title === 'Blockbuster Movies');
+    if (isMoviesRow) return;
 
     const url = mediaType === "tv"
       ? `https://api.themoviedb.org/3/tv/${category ? category : "popular"}?language=en-US&page=1`
@@ -49,14 +48,16 @@ const TitleCards = ({ title = "Movies", category = "popular", mediaType = "movie
         if (res.results && res.results.length > 0) {
           // Filter only items with valid poster_path or backdrop
           const valid = res.results.filter(r => r.poster_path || r.backdrop_path);
-          setApiData(valid.length > 0 ? valid : referenceMovies);
+          setApiData(valid.length > 0 ? valid : (mediaType === 'movie' ? referenceMovies : []));
         } else {
-          setApiData(referenceMovies);
+          setApiData(mediaType === 'movie' ? referenceMovies : []);
         }
+        setIsLoading(false);
       })
       .catch(err => {
-        console.warn("Using fallback reference movies:", err);
-        setApiData(referenceMovies);
+        console.warn(`Unable to load ${mediaType} titles:`, err);
+        setApiData(mediaType === 'movie' ? referenceMovies : []);
+        setIsLoading(false);
       });
 
     const el = cardsRef.current;
@@ -80,7 +81,7 @@ const TitleCards = ({ title = "Movies", category = "popular", mediaType = "movie
     const featuredMovieIndex = carouselItems.findIndex(item => item.title === 'Jurassic World Rebirth');
 
     return (
-      <div className="title-cards-section movies-circular-section">
+      <div className="title-cards-section title-cards-section--circular">
         <div className="section-header"><h2 className="section-title">{title}</h2></div>
         <CircularCarousel
           items={carouselItems}
@@ -97,8 +98,47 @@ const TitleCards = ({ title = "Movies", category = "popular", mediaType = "movie
           fadeColor="#090b10"
           cornerRadius={18}
           captions
-          onItemClick={(item) => { window.location.href = `/player/${item.id}?type=movie`; }}
+          onItemClick={(item) => navigate(`/player/${item.id}?type=movie`)}
         />
+      </div>
+    );
+  }
+
+  if (mediaType === 'tv' && title === 'TV Shows') {
+    const carouselItems = apiData
+      .filter(show => show.poster_path || show.backdrop_path)
+      .map(show => ({
+        id: show.id,
+        src: `https://image.tmdb.org/t/p/w500${show.poster_path || show.backdrop_path}`,
+        title: show.name || show.original_name || 'TV Show',
+        alt: show.name || show.original_name || 'TV Show',
+      }));
+
+    return (
+      <div className="title-cards-section title-cards-section--circular">
+        <div className="section-header"><h2 className="section-title">{title}</h2></div>
+        {carouselItems.length > 0 ? (
+          <CircularCarousel
+            items={carouselItems}
+            preset="orbit"
+            intro="rise"
+            autoplay="off"
+            cardWidth={214}
+            aspectRatio={0.68}
+            gap={30}
+            parallax={0}
+            stretch={0.12}
+            depthFade={0.48}
+            fadeColor="#090b10"
+            cornerRadius={18}
+            captions
+            onItemClick={(item) => navigate(`/player/${item.id}?type=tv`)}
+          />
+        ) : (
+          <div className="circular-carousel-loading" role="status">
+            {isLoading ? 'Loading TV shows…' : 'TV shows are temporarily unavailable.'}
+          </div>
+        )}
       </div>
     );
   }

@@ -630,7 +630,7 @@ const Home = () => {
             {activeTab === 'TV Shows' ? (
               <>
                 <TitleCards title={"Top Rated Series"} category={"top_rated"} mediaType="tv" onToggleMyList={toggleMyList} myListIds={myListIds} />
-                <TitleCards title={"Popular TV Shows"} category={"popular"} mediaType="tv" onToggleMyList={toggleMyList} myListIds={myListIds} />
+                <TitleCards title={"TV Shows"} category={"popular"} mediaType="tv" onToggleMyList={toggleMyList} myListIds={myListIds} />
                 <TitleCards title={"Airing Today on Neplify"} category={"airing_today"} mediaType="tv" onToggleMyList={toggleMyList} myListIds={myListIds} />
                 <TitleCards title={"Critically Acclaimed TV Shows"} category={"on_the_air"} mediaType="tv" onToggleMyList={toggleMyList} myListIds={myListIds} />
               </>
