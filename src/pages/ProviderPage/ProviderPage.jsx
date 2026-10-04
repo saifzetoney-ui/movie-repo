@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import './ProviderPage.css';
 import { getProviderById } from '../../data/providersData';
 import { useNavigate } from 'react-router-dom';
@@ -11,11 +11,69 @@ const ProviderPage = ({ providerId = 'prime', onBackToHome }) => {
 
   const [activeCategory, setActiveCategory] = useState('All');
   const [providerSearch, setProviderSearch] = useState('');
+  const [providerSections, setProviderSections] = useState(provider.sections || []);
+  const [loadedProviderId, setLoadedProviderId] = useState(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const apiKey = import.meta.env.VITE_TMDB_API_KEY || 'd40cef06bfd32a56fbc548f378ac6e5a';
+    const providerIds = provider.tmdbProviderIds;
+
+    const loadType = async (mediaType) => {
+      const params = new URLSearchParams({
+        api_key: apiKey,
+        language: 'en-US',
+        page: '1',
+        watch_region: 'US',
+        with_watch_providers: providerIds,
+        sort_by: 'popularity.desc',
+        include_adult: 'false'
+      });
+      const response = await fetch(`https://api.themoviedb.org/3/discover/${mediaType}?${params}`, {
+        signal: controller.signal
+      });
+      if (!response.ok) throw new Error(`TMDB ${mediaType} request failed (${response.status})`);
+      const data = await response.json();
+      return (data.results || [])
+        .filter(item => item.poster_path || item.backdrop_path)
+        .map(item => ({
+          id: item.id,
+          title: item.title || item.name,
+          rating: `${Math.round((item.vote_average || 0) * 10)}% Match`,
+          year: (item.release_date || item.first_air_date || '').slice(0, 4),
+          maturity: '',
+          quality: 'HD',
+          image: `https://image.tmdb.org/t/p/w500${item.poster_path || item.backdrop_path}`,
+          backdrop: item.backdrop_path ? `https://image.tmdb.org/t/p/w1280${item.backdrop_path}` : '',
+          badge: mediaType === 'tv' ? 'SERIES' : 'MOVIE',
+          mediaType
+        }));
+    };
+
+    Promise.allSettled([loadType('movie'), loadType('tv')]).then(results => {
+      if (controller.signal.aborted) return;
+      const [movies, series] = results.map(result => result.status === 'fulfilled' ? result.value : []);
+      const nextSections = [];
+      if (movies.length) nextSections.push({ title: `Popular Movies on ${provider.name}`, items: movies });
+      if (series.length) nextSections.push({ title: `Popular Series on ${provider.name}`, items: series });
+
+      // Keep the curated catalog visible if TMDB is temporarily unavailable.
+      setProviderSections(nextSections.length ? nextSections : (provider.sections || []));
+      setLoadedProviderId(provider.id);
+    }).catch(() => {
+      if (!controller.signal.aborted) {
+        setProviderSections(provider.sections || []);
+        setLoadedProviderId(provider.id);
+      }
+    });
+
+    return () => controller.abort();
+  }, [provider]);
 
   // Collect all items from provider
   const allProviderItems = useMemo(() => {
     const list = [];
-    provider.sections.forEach((sec) => {
+    providerSections.forEach((sec) => {
       sec.items.forEach((item) => {
         if (!list.some((i) => i.id === item.id)) {
           list.push({ ...item, sectionTitle: sec.title });
@@ -23,24 +81,25 @@ const ProviderPage = ({ providerId = 'prime', onBackToHome }) => {
       });
     });
     return list;
-  }, [provider]);
+  }, [providerSections]);
 
   // Filter items based on search and category
   const filteredSections = useMemo(() => {
-    return provider.sections.map((sec) => {
+    return providerSections.map((sec) => {
       const filteredItems = sec.items.filter((item) => {
         const matchesSearch = !providerSearch || item.title.toLowerCase().includes(providerSearch.toLowerCase());
         const matchesCategory =
           activeCategory === 'All' ||
-          (activeCategory === 'Amazon Originals' && (item.badge?.includes('ORIGINAL') || item.badge?.includes('PRIME'))) ||
-          (activeCategory === 'Movies' && sec.title.toLowerCase().includes('movie')) ||
-          (activeCategory === 'TV Shows' && sec.title.toLowerCase().includes('series')) ||
-          (activeCategory === 'Top 10' && (item.badge?.includes('TOP') || item.badge?.includes('#')));
+          activeCategory === 'Trending' ||
+          (activeCategory === 'Movies' && (item.mediaType || (sec.title.toLowerCase().includes('movie') ? 'movie' : 'tv')) === 'movie') ||
+          (activeCategory === 'TV Shows' && (item.mediaType || (sec.title.toLowerCase().includes('movie') ? 'movie' : 'tv')) === 'tv');
         return matchesSearch && matchesCategory;
       });
       return { ...sec, items: filteredItems };
     }).filter((sec) => sec.items.length > 0);
-  }, [provider, providerSearch, activeCategory]);
+  }, [providerSections, providerSearch, activeCategory]);
+
+  const categories = ['All', 'Movies', 'TV Shows', 'Trending'];
 
   return (
     <div
@@ -83,7 +142,7 @@ const ProviderPage = ({ providerId = 'prime', onBackToHome }) => {
 
         <div className="provider-hero-content">
           <div className="provider-tagline-pill">
-            <span className="hub-label">{provider.name.toUpperCase()} EXCLUSIVE</span>
+            <span className="hub-label">{provider.name.toUpperCase()} • {allProviderItems.length} TITLES</span>
           </div>
 
           <h1 className="provider-hero-title">{provider.featuredTitle}</h1>
@@ -102,7 +161,10 @@ const ProviderPage = ({ providerId = 'prime', onBackToHome }) => {
             <button
               type="button"
               className="btn-provider-play"
-              onClick={() => navigate('/player/933260?type=movie')}
+              onClick={() => {
+                const featured = allProviderItems.find(item => item.title?.toLowerCase() === provider.featuredTitle?.toLowerCase()) || allProviderItems[0];
+                if (featured) navigate(`/player/${featured.id}?type=${featured.mediaType || 'movie'}`);
+              }}
             >
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                 <polygon points="5 3 19 12 5 21 5 3"></polygon>
@@ -124,7 +186,7 @@ const ProviderPage = ({ providerId = 'prime', onBackToHome }) => {
       {/* Provider Filter Bar & Search */}
       <div className="provider-controls-bar">
         <div className="provider-category-tabs">
-          {provider.categories.map((cat) => (
+          {categories.map((cat) => (
             <button
               key={cat}
               type="button"
@@ -161,6 +223,9 @@ const ProviderPage = ({ providerId = 'prime', onBackToHome }) => {
 
       {/* Content Rows */}
       <div className="provider-rows-container">
+        {loadedProviderId !== provider.id && (
+          <div className="provider-catalog-status" role="status">Loading {provider.name} titles…</div>
+        )}
         {filteredSections.length > 0 ? (
           filteredSections.map((section, idx) => (
             <div key={idx} className="provider-content-row">
@@ -170,7 +235,7 @@ const ProviderPage = ({ providerId = 'prime', onBackToHome }) => {
                   <div
                     key={item.id}
                     className="provider-item-card"
-                    onClick={() => navigate('/player/933260?type=movie')}
+                    onClick={() => navigate(`/player/${item.id}?type=${item.mediaType || 'movie'}`)}
                   >
                     <div className="provider-card-artwork">
                       <img src={item.image} alt={item.title} loading="lazy" />
