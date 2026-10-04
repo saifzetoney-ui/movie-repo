@@ -175,6 +175,7 @@ const usePrefersReducedMotion = () => {
 
 const CircularCarousel = ({
   items = DEFAULT_ITEMS,
+  startIndex = 0,
   preset = 'cylinder',
   intro = 'rise',
   cardWidth = 220,
@@ -283,6 +284,16 @@ const CircularCarousel = ({
     drop: 0,
     last: 0
   });
+
+  useEffect(() => {
+    const index = ((startIndex % count) + count) % count;
+    const angle = -index * step;
+    activeRef.current = index;
+    setActive(index);
+    stateRef.current.angle = angle;
+    stateRef.current.target = null;
+    wakeRef.current();
+  }, [startIndex, count, step]);
 
   const settings = {
     count,
@@ -539,6 +550,7 @@ const CircularCarousel = ({
       for (let index = 0; index < s.count; index++) {
         const card = cardRefs.current[index];
         if (!card) continue;
+        card.classList.toggle('is-active', index === activeRef.current);
         const base = index * s.step;
         const mod = introCard(elapsed, base);
         const r = R * mod.radius;
@@ -566,6 +578,9 @@ const CircularCarousel = ({
         activeRef.current = index;
         setActive(index);
         onChangeRef.current?.(index);
+        for (let cardIndex = 0; cardIndex < s.count; cardIndex++) {
+          cardRefs.current[cardIndex]?.classList.toggle('is-active', cardIndex === index);
+        }
       }
     };
 
@@ -874,6 +889,15 @@ const CircularCarousel = ({
       onClick={handleClick}
       onKeyDown={handleKeyDown}
     >
+      <button
+        type="button"
+        className="circular-carousel__arrow circular-carousel__arrow--previous"
+        aria-label="Previous movie"
+        onPointerDown={event => event.stopPropagation()}
+        onClick={event => { event.stopPropagation(); stepBy(-1); }}
+      >
+        ‹
+      </button>
       <div className="circular-carousel__view">
         <div ref={stageRef} className="circular-carousel__stage">
           <div ref={cameraRef} className="circular-carousel__camera">
@@ -898,6 +922,15 @@ const CircularCarousel = ({
           </div>
         </div>
       </div>
+      <button
+        type="button"
+        className="circular-carousel__arrow circular-carousel__arrow--next"
+        aria-label="Next movie"
+        onPointerDown={event => event.stopPropagation()}
+        onClick={event => { event.stopPropagation(); stepBy(1); }}
+      >
+        ›
+      </button>
       {captions && current && (
         <div className="circular-carousel__caption" aria-hidden="true">
           <span key={active} className="circular-carousel__title">

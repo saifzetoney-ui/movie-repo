@@ -71,18 +71,32 @@ const TitleCards = ({ title = "Movies", category = "popular", mediaType = "movie
   if (mediaType === 'movie' && title === 'Movies') {
     const carouselItems = displayList.map((card, index) => ({
       id: card.id || index + 1,
-      src: card.backdrop_path
-        ? (card.backdrop_path.startsWith('http') ? card.backdrop_path : `https://image.tmdb.org/t/p/w780${card.backdrop_path}`)
-        : (card.poster_path?.startsWith('http') ? card.poster_path : `https://image.tmdb.org/t/p/w500${card.poster_path || ''}`),
+      src: card.poster_path
+        ? (card.poster_path.startsWith('http') ? card.poster_path : `https://image.tmdb.org/t/p/w500${card.poster_path}`)
+        : (card.backdrop_path?.startsWith('http') ? card.backdrop_path : `https://image.tmdb.org/t/p/w500${card.backdrop_path || ''}`),
       title: card.title || card.original_title || card.name || 'Movie',
       alt: card.title || card.original_title || card.name || 'Movie'
     }));
+    const featuredMovieIndex = carouselItems.findIndex(item => item.title === 'Jurassic World Rebirth');
 
     return (
       <div className="title-cards-section movies-circular-section">
         <div className="section-header"><h2 className="section-title">{title}</h2></div>
         <CircularCarousel
           items={carouselItems}
+          startIndex={featuredMovieIndex >= 0 ? featuredMovieIndex : 0}
+          preset="orbit"
+          intro="rise"
+          autoplay="off"
+          cardWidth={214}
+          aspectRatio={0.68}
+          gap={30}
+          parallax={0}
+          stretch={0.12}
+          depthFade={0.48}
+          fadeColor="#090b10"
+          cornerRadius={18}
+          captions
           onItemClick={(item) => { window.location.href = `/player/${item.id}?type=movie`; }}
         />
       </div>
