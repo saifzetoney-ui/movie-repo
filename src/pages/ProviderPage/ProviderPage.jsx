@@ -230,37 +230,57 @@ const ProviderPage = ({ providerId = 'prime', onBackToHome }) => {
           filteredSections.map((section, idx) => (
             <div key={idx} className="provider-content-row">
               <h2 className="provider-row-title">{section.title}</h2>
-              <div className="provider-posters-track">
-                {section.items.map((item) => (
-                  <div
-                    key={item.id}
-                    className="provider-item-card"
-                    onClick={() => navigate(`/player/${item.id}?type=${item.mediaType || 'movie'}`)}
-                  >
-                    <div className="provider-card-artwork">
-                      <img src={item.image} alt={item.title} loading="lazy" />
-                      <div className="provider-card-overlay">
-                        <div className="p-play-btn">
-                          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                          </svg>
+              <div className="provider-row-carousel">
+                <button
+                  type="button"
+                  className="provider-row-arrow previous"
+                  aria-label={`Scroll ${section.title} left`}
+                  onClick={(event) => {
+                    const track = event.currentTarget.parentElement.querySelector('.provider-posters-track');
+                    track?.scrollBy({ left: -Math.max(track.clientWidth * 0.8, 300), behavior: 'smooth' });
+                  }}
+                >‹</button>
+                <div className="provider-posters-track">
+                  {section.items.map((item) => (
+                    <div
+                      key={item.id}
+                      className="provider-item-card"
+                      onClick={() => navigate(`/player/${item.id}?type=${item.mediaType || 'movie'}`)}
+                    >
+                      <div className="provider-card-artwork">
+                        <img src={item.image} alt={item.title} loading="lazy" />
+                        <div className="provider-card-overlay">
+                          <div className="p-play-btn">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                          </div>
                         </div>
+                        {item.badge && (
+                          <span className="provider-item-badge">{item.badge}</span>
+                        )}
                       </div>
-                      {item.badge && (
-                        <span className="provider-item-badge">{item.badge}</span>
-                      )}
-                    </div>
 
-                    <div className="provider-item-info">
-                      <div className="item-meta-top">
-                        <span className="p-item-score">{item.rating}</span>
-                        <span className="p-item-quality">{item.quality}</span>
-                        <span className="p-item-year">{item.year}</span>
+                      <div className="provider-item-info">
+                        <div className="item-meta-top">
+                          <span className="p-item-score">{item.rating}</span>
+                          <span className="p-item-quality">{item.quality}</span>
+                          <span className="p-item-year">{item.year}</span>
+                        </div>
+                        <h4 className="p-item-title">{item.title}</h4>
                       </div>
-                      <h4 className="p-item-title">{item.title}</h4>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  className="provider-row-arrow next"
+                  aria-label={`Scroll ${section.title} right`}
+                  onClick={(event) => {
+                    const track = event.currentTarget.parentElement.querySelector('.provider-posters-track');
+                    track?.scrollBy({ left: Math.max(track.clientWidth * 0.8, 300), behavior: 'smooth' });
+                  }}
+                >›</button>
               </div>
             </div>
           ))
