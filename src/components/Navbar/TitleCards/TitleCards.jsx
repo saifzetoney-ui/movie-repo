@@ -5,20 +5,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import CircularCarousel from '../../CircularCarousel/CircularCarousel';
 
 const TitleCards = ({ title = "Movies", category = "popular", mediaType = "movie", onToggleMyList, myListIds = [] }) => {
-  const [apiData, setApiData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [apiResult, setApiResult] = useState({ key: null, data: [] });
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const cardsRef = useRef();
   const navigate = useNavigate();
-
-  const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5NzU1NmRiNmVkOTVhMDg0YWY5ZDA5OGEzMTQ5Y2Q2YiIsIm5iZiI6MTc2NTEwMjUzNS4zODksInN1YiI6IjY5MzU1M2M3Zjg5OWFjNTE2ZTQ4ZWMwMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.H8vCa2R_gzMua9RBuZXkA4Lqe_t7a0vDRcYD_ImwxOs'
-    }
-  };
 
   const checkScroll = () => {
     if (!cardsRef.current) return;
@@ -35,39 +26,53 @@ const TitleCards = ({ title = "Movies", category = "popular", mediaType = "movie
   };
 
   useEffect(() => {
-    const isMoviesRow = mediaType === 'movie' && (title === 'Movies' || title === 'Blockbuster Movies');
-    if (isMoviesRow) return;
-
+    const controller = new AbortController();
+    const options = {
+      method: 'GET',
+      signal: controller.signal,
+      headers: {
+        accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5NzU1NmRiNmVkOTVhMDg0YWY5ZDA5OGEzMTQ5Y2Q2YiIsIm5iZiI6MTc2NTEwMjUzNS4zODksInN1YiI6IjY5MzU1M2M3Zjg5OWFjNTE2ZTQ4ZWMwMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.H8vCa2R_gzMua9RBuZXkA4Lqe_t7a0vDRcYD_ImwxOs'
+      }
+    };
     const url = mediaType === "tv"
       ? `https://api.themoviedb.org/3/tv/${category ? category : "popular"}?language=en-US&page=1`
       : `https://api.themoviedb.org/3/movie/${category ? category : "popular"}?language=en-US&page=1`;
+    const key = `${mediaType}:${category || 'popular'}`;
 
     fetch(url, options)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error(`TMDB request failed (${res.status})`);
+        return res.json();
+      })
       .then(res => {
         if (res.results && res.results.length > 0) {
-          // Filter only items with valid poster_path or backdrop
           const valid = res.results.filter(r => r.poster_path || r.backdrop_path);
-          setApiData(valid.length > 0 ? valid : (mediaType === 'movie' ? referenceMovies : []));
+          setApiResult({ key, data: valid.length > 0 ? valid : (mediaType === 'movie' ? referenceMovies : []) });
         } else {
-          setApiData(mediaType === 'movie' ? referenceMovies : []);
+          setApiResult({ key, data: mediaType === 'movie' ? referenceMovies : [] });
         }
-        setIsLoading(false);
       })
       .catch(err => {
+        if (controller.signal.aborted) return;
         console.warn(`Unable to load ${mediaType} titles:`, err);
-        setApiData(mediaType === 'movie' ? referenceMovies : []);
-        setIsLoading(false);
+        setApiResult({ key, data: mediaType === 'movie' ? referenceMovies : [] });
       });
 
     const el = cardsRef.current;
     if (el) {
       el.addEventListener('scroll', checkScroll);
-      return () => el.removeEventListener('scroll', checkScroll);
     }
+    return () => {
+      controller.abort();
+      el?.removeEventListener('scroll', checkScroll);
+    };
   }, [category, mediaType, title]);
 
-  const displayList = apiData.length > 0 ? apiData : referenceMovies;
+  const queryKey = `${mediaType}:${category || 'popular'}`;
+  const isLoading = apiResult.key !== queryKey;
+  const apiData = isLoading ? [] : apiResult.data;
+  const displayList = apiData.length > 0 ? apiData : (mediaType === 'movie' ? referenceMovies : []);
 
   if (mediaType === 'movie' && title === 'Movies') {
     const carouselItems = displayList.filter(card => card.poster_path || card.backdrop_path).map((card, index) => ({
