@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
-import './TitleCards.css'
-import cards_data from '../../../assets/cards/Cards_data'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useRef, useState } from 'react';
+import './TitleCards.css';
+import { referenceMovies } from '../../../data/referenceMovies';
+import { Link } from 'react-router-dom';
 
-const TitleCards = ({ title, category, mediaType = "movie", onToggleMyList, myListIds = [] }) => {
+const TitleCards = ({ title = "Movies", category = "popular", mediaType = "movie", onToggleMyList, myListIds = [] }) => {
   const [apiData, setApiData] = useState([]);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -32,22 +32,30 @@ const TitleCards = ({ title, category, mediaType = "movie", onToggleMyList, myLi
   };
 
   useEffect(() => {
+    const isMoviesRow = title === 'Movies' || title === 'Blockbuster Movies';
+    if (isMoviesRow) {
+      setApiData(referenceMovies);
+      return;
+    }
+
     const url = mediaType === "tv"
       ? `https://api.themoviedb.org/3/tv/${category ? category : "popular"}?language=en-US&page=1`
-      : `https://api.themoviedb.org/3/movie/${category ? category : "now_playing"}?language=en-US&page=1`;
+      : `https://api.themoviedb.org/3/movie/${category ? category : "popular"}?language=en-US&page=1`;
 
     fetch(url, options)
       .then(res => res.json())
       .then(res => {
         if (res.results && res.results.length > 0) {
-          setApiData(res.results);
+          // Filter only items with valid poster_path or backdrop
+          const valid = res.results.filter(r => r.poster_path || r.backdrop_path);
+          setApiData(valid.length > 0 ? valid : referenceMovies);
         } else {
-          setApiData(cards_data);
+          setApiData(referenceMovies);
         }
       })
       .catch(err => {
-        console.warn("Using fallback cards data due to API error:", err);
-        setApiData(cards_data);
+        console.warn("Using fallback reference movies:", err);
+        setApiData(referenceMovies);
       });
 
     const el = cardsRef.current;
@@ -55,15 +63,14 @@ const TitleCards = ({ title, category, mediaType = "movie", onToggleMyList, myLi
       el.addEventListener('scroll', checkScroll);
       return () => el.removeEventListener('scroll', checkScroll);
     }
-  }, [category, mediaType]);
+  }, [category, mediaType, title]);
 
-  const displayList = apiData.length > 0 ? apiData : cards_data;
+  const displayList = apiData.length > 0 ? apiData : referenceMovies;
 
   return (
     <div className="title-cards-section">
       <div className="section-header">
-        <h2 className="section-title">{title ? title : "Popular on Neplify"}</h2>
-        <span className="explore-all">Explore All &rsaquo;</span>
+        <h2 className="section-title">{title}</h2>
       </div>
 
       <div className="carousel-wrapper">
@@ -79,9 +86,11 @@ const TitleCards = ({ title, category, mediaType = "movie", onToggleMyList, myLi
           {displayList.map((card, index) => {
             const movieId = card.id || (index + 1);
             const movieTitle = card.title || card.original_title || card.name;
-            const imgSrc = card.backdrop_path 
-              ? `https://image.tmdb.org/t/p/w500${card.backdrop_path}` 
-              : (card.poster_path ? `https://image.tmdb.org/t/p/w500${card.poster_path}` : card.image);
+            const imgSrc = card.poster_path 
+              ? (card.poster_path.startsWith('http') ? card.poster_path : `https://image.tmdb.org/t/p/w500${card.poster_path}`)
+              : (card.backdrop_path 
+                ? `https://image.tmdb.org/t/p/w500${card.backdrop_path}` 
+                : (card.image || "https://image.tmdb.org/t/p/w500/39aMkR8Y5vhCG9dTkjiqRl8AVqp.jpg"));
             
             const matchScore = card.vote_average 
               ? `${Math.round(card.vote_average * 10)}% Match` 
@@ -91,38 +100,17 @@ const TitleCards = ({ title, category, mediaType = "movie", onToggleMyList, myLi
             const isSaved = myListIds.includes(movieId);
 
             return (
-              <Link 
-                to={`/player/${movieId}?type=${mediaType}`} 
-                className="movie-card tv-focusable" 
-                tabIndex={0}
-                onFocus={(e) => {
-                  if (cardsRef.current) {
-                    const card = e.currentTarget;
-                    const container = cardsRef.current;
-                    const offset = (card.offsetLeft + card.offsetWidth / 2) - (container.clientWidth / 2);
-                    container.scrollTo({ left: offset, behavior: 'smooth' });
-                  }
-                }}
-                key={card.id || index}
-              >
-                <div className="card-media">
+              <div className="poster-card-item" key={card.id || index}>
+                <Link 
+                  to={`/player/${movieId}?type=${mediaType}`} 
+                  className="poster-media-box tv-focusable" 
+                  tabIndex={0}
+                >
                   <img src={imgSrc} alt={movieTitle} loading="lazy" />
-                  <div className="card-gradient"></div>
 
-                  {/* Clean bottom info directly over the artwork */}
-                  <div className="card-bottom-info">
-                    <h4 className="card-title">{movieTitle}</h4>
-                    <div className="card-meta-line">
-                      <span className="match-score">{matchScore}</span>
-                      <span className="age-badge">16+</span>
-                      <span className="quality-badge">HD</span>
-                      <span className="year-badge">{year}</span>
-                    </div>
-                  </div>
-
-                  {/* Interactive Play & Add buttons on hover */}
-                  <div className="card-hover-layer">
-                    <div className="play-circle">
+                  {/* Play & Add buttons on hover */}
+                  <div className="poster-hover-actions">
+                    <div className="poster-play-badge">
                       <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                         <polygon points="5 3 19 12 5 21 5 3"></polygon>
                       </svg>
@@ -130,7 +118,7 @@ const TitleCards = ({ title, category, mediaType = "movie", onToggleMyList, myLi
 
                     <button
                       type="button"
-                      className={`card-add-btn ${isSaved ? 'in-list' : ''}`}
+                      className={`poster-watchlist-btn ${isSaved ? 'in-list' : ''}`}
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -141,8 +129,13 @@ const TitleCards = ({ title, category, mediaType = "movie", onToggleMyList, myLi
                       {isSaved ? "✓" : "+"}
                     </button>
                   </div>
-                </div>
-              </Link>
+                </Link>
+
+                {/* Left-aligned title text directly underneath the card matching reference */}
+                <h4 className="poster-below-title" title={movieTitle}>
+                  {movieTitle}
+                </h4>
+              </div>
             );
           })}
         </div>
@@ -156,7 +149,7 @@ const TitleCards = ({ title, category, mediaType = "movie", onToggleMyList, myLi
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TitleCards
+export default TitleCards;

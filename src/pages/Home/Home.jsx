@@ -636,6 +636,7 @@ const Home = () => {
               </>
             ) : activeTab === 'Movies' ? (
               <>
+                <TitleCards title={"Movies"} category={"popular"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
                 <TitleCards title={"Blockbuster Movies"} category={"top_rated"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
                 <TitleCards title={"In Theaters & Trending"} category={"now_playing"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
                 <TitleCards title={"Only on Neplify Movies"} category={"popular"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
@@ -652,6 +653,7 @@ const Home = () => {
               <>
                 {selectedCategory === 'all' ? (
                   <>
+                    <TitleCards title={"Movies"} category={"popular"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
                     <TitleCards title={"Top Rated"} category={"top_rated"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
                     <TitleCards title={"Trending Now"} category={"popular"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
                     <TitleCards title={"Now Playing"} category={"now_playing"} mediaType="movie" onToggleMyList={toggleMyList} myListIds={myListIds} />
