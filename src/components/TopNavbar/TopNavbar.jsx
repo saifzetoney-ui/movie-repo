@@ -20,6 +20,7 @@ const TopNavbar = ({
 
   const searchInputRef = useRef(null);
   const dropdownRef = useRef(null);
+  const dropdownTimeoutRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,6 +28,14 @@ const TopNavbar = ({
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (dropdownTimeoutRef.current) {
+        clearTimeout(dropdownTimeoutRef.current);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -40,12 +49,39 @@ const TopNavbar = ({
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        if (dropdownTimeoutRef.current) {
+          clearTimeout(dropdownTimeoutRef.current);
+        }
         setProfileDropdownOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const handleProfileMouseEnter = () => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    setProfileDropdownOpen(true);
+  };
+
+  const handleProfileMouseLeave = () => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setProfileDropdownOpen(false);
+    }, 400); // 400ms buffer so moving cursor into menu never closes it
+  };
+
+  const handleProfileClick = (e) => {
+    e.stopPropagation();
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    setProfileDropdownOpen((prev) => !prev);
+  };
 
   const handleSearchToggle = () => {
     if (!searchOpen) {
@@ -170,13 +206,13 @@ const TopNavbar = ({
         <div
           className="navbar-profile-control"
           ref={dropdownRef}
-          onMouseEnter={() => setProfileDropdownOpen(true)}
-          onMouseLeave={() => setProfileDropdownOpen(false)}
+          onMouseEnter={handleProfileMouseEnter}
+          onMouseLeave={handleProfileMouseLeave}
         >
           <button
             type="button"
             className="profile-trigger-btn"
-            onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+            onClick={handleProfileClick}
             aria-label="Profile menu"
           >
             <img
