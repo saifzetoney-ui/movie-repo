@@ -125,7 +125,10 @@ const Player = () => {
 
   const [loading, setLoading] = useState(true);
   const [playMode, setPlayMode] = useState('stream');
-  const [server, setServer] = useState(1);
+  // Auto mode prefers the HD/CDN sources first, then falls back through the
+  // remaining providers if an embed fails to load.
+  const [server, setServer] = useState(0);
+  const serverPriority = [2, 5, 1, 3, 4];
   const [season, setSeason] = useState(() => {
     const s = Number(seasonParam);
     return s && !isNaN(s) ? s : 1;
@@ -892,11 +895,23 @@ const Player = () => {
     : `https://vidlink.pro/movie/${activeId}?primaryColor=e50914&autoplay=false${vidlinkTimeParam}`;
 
   const currentStreamUrl =
-    server === 1 ? vidsrcUrl :
-    server === 2 ? vidcoreUrl :
-    server === 3 ? superEmbedUrl :
-    server === 4 ? superEmbedServer2Url :
+    (server === 0 ? 2 : server) === 1 ? vidsrcUrl :
+    (server === 0 ? 2 : server) === 2 ? vidcoreUrl :
+    (server === 0 ? 2 : server) === 3 ? superEmbedUrl :
+    (server === 0 ? 2 : server) === 4 ? superEmbedServer2Url :
     vidlinkUrl;
+
+  const resolvedServer = server === 0 ? serverPriority[0] : server;
+  const handleStreamError = () => {
+    const currentIndex = serverPriority.indexOf(resolvedServer);
+    const nextServer = serverPriority[currentIndex + 1];
+    if (server === 0 && nextServer) {
+      setServer(nextServer);
+      showToast(`Auto switched to ${nextServer === 5 ? 'VidLink' : nextServer === 1 ? 'VidSrc' : nextServer === 3 ? 'SuperEmbed Fast' : 'SuperEmbed 2'}`);
+    } else {
+      showToast('This server could not load. Choose another source below.');
+    }
+  };
 
   const youtubeTimeParam = activeStartTime && activeStartTime > 0 ? `&start=${activeStartTime}` : '';
   const youtubeUrl = `https://www.youtube.com/embed/${trailerData?.key || 'u65jZ8h8m-M'}?autoplay=1&rel=0&modestbranding=1${youtubeTimeParam}`;
@@ -1132,6 +1147,7 @@ const Player = () => {
             allow="accelerometer *; autoplay *; clipboard-write *; encrypted-media *; gyroscope *; picture-in-picture *; web-share *; fullscreen *"
             scrolling="no"
             frameBorder="0"
+            onError={handleStreamError}
           ></iframe>
         ) : (
           <iframe
@@ -1273,35 +1289,42 @@ const Player = () => {
             <div className="server-toggle-group">
               <span className="server-label">Stream Server:</span>
               <button 
-                className={`server-pill ${server === 1 ? 'active' : ''}`}
+                className={`server-pill auto-server-pill ${server === 0 ? 'active' : ''}`}
+                onClick={() => setServer(0)}
+                title="Automatically choose the best available HD server"
+              >
+                ✨ Auto · Best quality
+              </button>
+              <button 
+                className={`server-pill ${resolvedServer === 1 && server !== 0 ? 'active' : ''}`}
                 onClick={() => setServer(1)}
                 title="VidSrc Fast CDN Stream (Default)"
               >
                 📺 VidSrc (Default)
               </button>
               <button 
-                className={`server-pill ${server === 2 ? 'active' : ''}`}
+                className={`server-pill ${resolvedServer === 2 && server !== 0 ? 'active' : ''}`}
                 onClick={() => setServer(2)}
                 title="VidCore HD (Fast CDN + Subtitles)"
               >
                 ⚡ VidCore HD
               </button>
               <button 
-                className={`server-pill ${server === 3 ? 'active' : ''}`}
+                className={`server-pill ${resolvedServer === 3 && server !== 0 ? 'active' : ''}`}
                 onClick={() => setServer(3)}
                 title="SuperEmbed Fast (Instant Play, No Subs)"
               >
                 🚀 SuperEmbed Fast
               </button>
               <button 
-                className={`server-pill ${server === 4 ? 'active' : ''}`}
+                className={`server-pill ${resolvedServer === 4 && server !== 0 ? 'active' : ''}`}
                 onClick={() => setServer(4)}
                 title="SuperEmbed 2 Backup Server"
               >
                 ⚡ SuperEmbed 2
               </button>
               <button 
-                className={`server-pill ${server === 5 ? 'active' : ''}`}
+                className={`server-pill ${resolvedServer === 5 && server !== 0 ? 'active' : ''}`}
                 onClick={() => setServer(5)}
                 title="VidLink Player with built-in CC"
               >
@@ -1321,13 +1344,13 @@ const Player = () => {
           </svg>
           <span>
             Streaming on <strong>{
-              server === 1 ? 'VidSrc CDN (Default)' :
-              server === 2 ? 'VidCore HD (Fast CDN + Subtitles)' :
-              server === 3 ? 'SuperEmbed Fast (Instant Play, No Subs)' :
-              server === 4 ? 'SuperEmbed 2 Backup' :
+              resolvedServer === 1 ? 'VidSrc CDN' :
+              resolvedServer === 2 ? 'VidCore HD (Auto selected)' :
+              resolvedServer === 3 ? 'SuperEmbed Fast (Instant Play, No Subs)' :
+              resolvedServer === 4 ? 'SuperEmbed 2 Backup' :
               'VidLink Player'
             }</strong>.
-            {server === 3 || server === 4 ? ' Note: SuperEmbed uses third-party raw videohosts without subtitle tracks. For subtitles, use Server 1 (VidSrc) or Server 2 (VidCore HD).' : ' If playback buffers, click any server pill above to switch.'}
+            {resolvedServer === 3 || resolvedServer === 4 ? ' Note: SuperEmbed uses third-party raw videohosts without subtitle tracks. For subtitles, use VidSrc or VidCore HD.' : server === 0 ? ' Auto mode prioritizes HD/CDN sources and switches when an embed fails.' : ' If playback buffers, click any server pill above to switch.'}
             {arabicSubs.length > 0 && (
               <> &bull; <a href={arabicSubs[0].url} target="_blank" rel="noopener noreferrer" style={{ color: '#46d369', textDecoration: 'underline' }}>Download Arabic Subtitles ({arabicSubs.length} available)</a></>
             )}
