@@ -147,6 +147,13 @@ const Player = () => {
   const [isTv, setIsTv] = useState(() => typeParam === 'tv' || initialTypeHint === 'tv');
   const [seasonsCount, setSeasonsCount] = useState(1);
   const [seasonEpisodes, setSeasonEpisodes] = useState([]);
+  const episodePillsRef = useRef(null);
+
+  useEffect(() => {
+    if (!isTv || playMode !== 'stream') return;
+    const activePill = episodePillsRef.current?.querySelector('.ep-pill.active');
+    activePill?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+  }, [episode, season, seasonEpisodes.length, isTv, playMode]);
 
   // Position key for persistent storage
   const getPositionKey = (tvMode = isTv, sNum = season, epNum = episode) => {
@@ -1272,7 +1279,15 @@ const Player = () => {
           </div>
 
           <div className="tv-episodes-list">
-            <div className="episodes-pills">
+            <button
+              type="button"
+              className="episode-scroll-btn"
+              aria-label="Scroll episodes left"
+              onClick={() => episodePillsRef.current?.scrollBy({ left: -episodePillsRef.current.clientWidth * 0.8, behavior: 'smooth' })}
+            >
+              ‹
+            </button>
+            <div className="episodes-pills" ref={episodePillsRef}>
               {Array.from({ length: Math.max(12, seasonEpisodes.length) }, (_, i) => i + 1).map((ep) => {
                 const episodeData = seasonEpisodes.find((item) => item.episode_number === ep);
                 const episodeTitle = episodeData?.name || (ep === 1 ? 'Pilot' : `Episode ${ep}`);
@@ -1299,6 +1314,14 @@ const Player = () => {
                 );
               })}
             </div>
+            <button
+              type="button"
+              className="episode-scroll-btn"
+              aria-label="Scroll episodes right"
+              onClick={() => episodePillsRef.current?.scrollBy({ left: episodePillsRef.current.clientWidth * 0.8, behavior: 'smooth' })}
+            >
+              ›
+            </button>
           </div>
         </div>
       )}
