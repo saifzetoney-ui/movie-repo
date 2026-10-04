@@ -5,7 +5,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #000;
+  background: #0a0b10;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #fff;
   overflow-x: hidden;
@@ -15,13 +15,14 @@
   position: fixed;
   inset: 0;
   background-image: 
-    linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.9) 100%),
+    linear-gradient(120deg, rgba(10, 11, 16, 0.98) 12%, rgba(10, 11, 16, 0.64) 54%, rgba(10, 11, 16, 0.9) 100%),
     url('/background_banner.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   z-index: 0;
-  opacity: 0.65;
+  opacity: 0.72;
+  filter: saturate(0.82) contrast(1.05);
 }
 
 .auth-radial-vignette {
@@ -34,7 +35,7 @@
 .auth-header {
   position: relative;
   z-index: 10;
-  padding: 24px 48px;
+  padding: 28px clamp(24px, 6vw, 84px);
   display: flex;
   align-items: center;
 }
@@ -46,13 +47,13 @@
 }
 
 .neplify-brand-logo {
-  color: #E50914;
+  color: #ff3150;
   font-family: 'Impact', 'Bebas Neue', 'Arial Black', sans-serif;
   font-size: 34px;
   font-weight: 900;
   letter-spacing: 3px;
   text-transform: uppercase;
-  text-shadow: 0 2px 12px rgba(229, 9, 20, 0.7);
+  text-shadow: 0 2px 18px rgba(255, 49, 80, 0.42);
   user-select: none;
 }
 
@@ -69,23 +70,23 @@
 
 .auth-card {
   width: 100%;
-  max-width: 450px;
-  background: rgba(0, 0, 0, 0.78);
+  max-width: 468px;
+  background: linear-gradient(145deg, rgba(24, 27, 36, 0.94), rgba(10, 11, 16, 0.92));
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  padding: 56px 64px 48px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 22px;
+  padding: 52px 56px 44px;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(108, 123, 255, 0.06);
   box-sizing: border-box;
 }
 
 .auth-title {
   font-size: 32px;
-  font-weight: 700;
+  font-weight: 800;
   margin-bottom: 28px;
   color: #fff;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.8px;
 }
 
 .auth-error-banner {
@@ -113,9 +114,9 @@
 .auth-input {
   width: 100%;
   height: 56px;
-  background: rgba(22, 22, 22, 0.8);
-  border: 1px solid rgba(128, 128, 128, 0.6);
-  border-radius: 4px;
+  background: rgba(8, 9, 14, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
   color: #fff;
   font-size: 16px;
   padding: 22px 16px 6px;
@@ -125,8 +126,9 @@
 }
 
 .auth-input:focus {
-  border-color: #fff;
-  background: rgba(30, 30, 30, 0.95);
+  border-color: #ff6b6b;
+  background: rgba(8, 9, 14, 0.9);
+  box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.12);
 }
 
 .auth-floating-label {
@@ -153,19 +155,21 @@
   width: 100%;
   height: 50px;
   margin-top: 12px;
-  background: #e50914;
+  background: linear-gradient(135deg, #ff3150, #e92b63);
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 12px;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
   transition: background-color 0.2s, transform 0.1s;
-  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
+  box-shadow: 0 10px 24px rgba(255, 49, 80, 0.24);
 }
 
 .auth-submit-btn:hover {
-  background: #f40612;
+  background: linear-gradient(135deg, #ff4964, #f03a70);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(255, 49, 80, 0.34);
 }
 
 .auth-submit-btn:active {
@@ -253,7 +257,8 @@
 .auth-simple-footer {
   position: relative;
   z-index: 10;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(8, 9, 14, 0.72);
+  backdrop-filter: blur(16px);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding: 30px 48px;
   color: #737373;

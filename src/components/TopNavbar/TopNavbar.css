@@ -4,23 +4,23 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 68px;
+  height: 78px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 4%;
+  padding: 0 clamp(20px, 5vw, 72px);
   z-index: 1000;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(180deg, rgba(7, 8, 12, 0.82) 0%, rgba(7, 8, 12, 0) 100%);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   user-select: none;
   box-sizing: border-box;
 }
 
 .top-navbar-wrapper.scrolled {
-  background-color: rgba(14, 14, 16, 0.96);
+  background-color: rgba(11, 12, 17, 0.86);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.34);
 }
 
 /* Brand logo in top left corner */
@@ -32,7 +32,7 @@
 }
 
 .neplify-brand-logo {
-  color: #E50914;
+  color: #ff3150;
   font-family: 'Impact', 'Bebas Neue', 'Arial Black', sans-serif;
   font-size: 26px;
   font-weight: 900;
