@@ -1204,7 +1204,7 @@ const Player = () => {
         {/* Floating Quick Action Overlay: Next Episode for TV & Fullscreen */}
         <div className="player-floating-actions">
           {isTv && playMode === 'stream' && (
-            <div className="floating-ep-controls">
+            <div className="floating-ep-controls" style={{ display: 'none' }}>
               {episode > 1 && (
                 <button
                   type="button"
