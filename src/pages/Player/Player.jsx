@@ -457,10 +457,16 @@ const Player = () => {
   const options = {
     method: 'GET',
     headers: {
-      accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5NzU1NmRiNmVkOTVhMDg0YWY5ZDA5OGEzMTQ5Y2Q2YiIsIm5iZiI6MTc2NTEwMjUzNS4zODksInN1YiI6IjY5MzU1M2M3Zjg5OWFjNTE2ZTQ4ZWMwMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.H8vCa2R_gzMua9RBuZXkA4Lqe_t7a0vDRcYD_ImwxOs'
+      accept: 'application/json'
     }
   };
+
+  const tmdbFetch = (url, requestOptions = options) => {
+    if (!url.startsWith('https://api.themoviedb.org/')) return globalThis.fetch(url, requestOptions);
+    const separator = url.includes('?') ? '&' : '?';
+    return globalThis.fetch(`${url}${separator}api_key=${TMDB_API_KEY}`, requestOptions);
+  };
+  const fetch = tmdbFetch;
 
   useEffect(() => {
     setLoading(true);
@@ -923,7 +929,7 @@ const Player = () => {
     }
 
     let cancelled = false;
-    fetch(`https://api.themoviedb.org/3/tv/${activeId}/season/${season}?api_key=${TMDB_API_KEY}&language=en-US`)
+    fetch(`https://api.themoviedb.org/3/tv/${activeId}/season/${season}?language=en-US`)
       .then((res) => (res.ok ? res.json() : Promise.reject(new Error('Season unavailable'))))
       .then((data) => {
         if (!cancelled) setSeasonEpisodes(Array.isArray(data.episodes) ? data.episodes : []);
