@@ -820,10 +820,10 @@
 /* Recently Watched & Continue Watching Styles */
 .recently-watched-row {
   margin-bottom: 24px;
-  background: linear-gradient(180deg, rgba(229, 9, 20, 0.05) 0%, rgba(20, 20, 20, 0.2) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035) 0%, rgba(20, 20, 20, 0.12) 100%);
   border-radius: 16px;
   padding: 8px 0 16px 0;
-  border-top: 1px solid rgba(229, 9, 20, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
 }
 
 .rw-header-left {
@@ -833,13 +833,14 @@
 }
 
 .rw-header-badge {
-  background: var(--accent-red);
+  background: rgba(255, 255, 255, 0.12);
   color: #fff;
   font-size: 11px;
   font-weight: 800;
   padding: 2px 8px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(229, 9, 20, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: none;
 }
 
 /* Polished Glassmorphic "View All" Button */
