@@ -453,6 +453,7 @@ const Player = () => {
     name: "Official Trailer"
   });
 
+  const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY || 'd40cef06bfd32a56fbc548f378ac6e5a';
   const options = {
     method: 'GET',
     headers: {
@@ -922,7 +923,7 @@ const Player = () => {
     }
 
     let cancelled = false;
-    fetch(`https://api.themoviedb.org/3/tv/${activeId}/season/${season}?language=en-US`, options)
+    fetch(`https://api.themoviedb.org/3/tv/${activeId}/season/${season}?api_key=${TMDB_API_KEY}&language=en-US`)
       .then((res) => (res.ok ? res.json() : Promise.reject(new Error('Season unavailable'))))
       .then((data) => {
         if (!cancelled) setSeasonEpisodes(Array.isArray(data.episodes) ? data.episodes : []);
