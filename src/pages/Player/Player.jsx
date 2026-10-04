@@ -119,6 +119,12 @@ const Player = () => {
   const timeQuery = searchParams.get('t') || searchParams.get('time');
   const navigate = useNavigate();
 
+  // A title opens as a fresh viewing surface, never at the browse page's
+  // previous scroll position.
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [id]);
+
   // Map local id to real TMDB id if applicable
   const activeId = localMovieMap[id] ? localMovieMap[id].id : id;
   const initialTypeHint = localMovieMap[id] ? localMovieMap[id].type : null;
