@@ -39,8 +39,9 @@ const ProviderPage = ({ providerId = 'prime', onBackToHome }) => {
         .map(item => ({
           id: item.id,
           title: item.title || item.name,
-          rating: `${Math.round((item.vote_average || 0) * 10)}% Match`,
+          rating: item.vote_average ? `${item.vote_average.toFixed(1)} / 10` : 'New',
           year: (item.release_date || item.first_air_date || '').slice(0, 4),
+          overview: item.overview || '',
           maturity: '',
           quality: 'HD',
           image: `https://image.tmdb.org/t/p/w500${item.poster_path || item.backdrop_path}`,
@@ -100,6 +101,12 @@ const ProviderPage = ({ providerId = 'prime', onBackToHome }) => {
   }, [providerSections, providerSearch, activeCategory]);
 
   const categories = ['All', 'Movies', 'TV Shows', 'Trending'];
+  const heroItem = allProviderItems.find(item => item.title?.toLowerCase() === provider.featuredTitle?.toLowerCase())
+    || allProviderItems.find(item => item.mediaType === 'tv')
+    || allProviderItems[0];
+  const heroTitle = heroItem?.title || provider.featuredTitle;
+  const heroImage = heroItem?.backdrop || heroItem?.image || provider.bgHero;
+  const heroDescription = heroItem?.overview || (heroTitle === provider.featuredTitle ? provider.featuredDesc : 'Explore popular movies and series available through this service.');
 
   return (
     <div
@@ -134,48 +141,49 @@ const ProviderPage = ({ providerId = 'prime', onBackToHome }) => {
       {/* Hero Section for Provider */}
       <div className="provider-hero">
         <img
-          src={provider.bgHero}
-          alt={provider.featuredTitle}
+          src={heroImage}
+          onError={(event) => {
+            if (event.currentTarget.src !== provider.bgHero) event.currentTarget.src = provider.bgHero;
+          }}
+          alt={heroTitle}
           className="provider-hero-img"
         />
         <div className="provider-hero-vignette"></div>
 
         <div className="provider-hero-content">
           <div className="provider-tagline-pill">
-            <span className="hub-label">{provider.name.toUpperCase()} • {allProviderItems.length} TITLES</span>
+            <span className="hub-label">FEATURED ON {provider.name.toUpperCase()}</span>
           </div>
 
-          <h1 className="provider-hero-title">{provider.featuredTitle}</h1>
+          <h1 className="provider-hero-title">{heroTitle}</h1>
 
           <div className="provider-meta-row">
-            <span className="provider-match-tag">{provider.rating}</span>
-            <span className="provider-badge-pill">{provider.year}</span>
-            <span className="provider-badge-pill">{provider.maturity}</span>
-            <span className="provider-badge-pill">Ultra HD 4K</span>
-            <span className="provider-badge-pill">HDR</span>
+            {heroItem?.rating && <span className="provider-match-tag">★ {heroItem.rating}</span>}
+            {heroItem?.year && <span className="provider-badge-pill">{heroItem.year}</span>}
+            {heroItem?.mediaType && <span className="provider-badge-pill">{heroItem.mediaType === 'tv' ? 'SERIES' : 'MOVIE'}</span>}
+            <span className="provider-badge-pill">TMDB</span>
           </div>
 
-          <p className="provider-hero-desc">{provider.featuredDesc}</p>
+          <p className="provider-hero-desc">{heroDescription}</p>
 
           <div className="provider-hero-actions">
             <button
               type="button"
               className="btn-provider-play"
               onClick={() => {
-                const featured = allProviderItems.find(item => item.title?.toLowerCase() === provider.featuredTitle?.toLowerCase()) || allProviderItems[0];
-                if (featured) navigate(`/player/${featured.id}?type=${featured.mediaType || 'movie'}`);
+                if (heroItem) navigate(`/player/${heroItem.id}?type=${heroItem.mediaType || 'movie'}`);
               }}
             >
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                 <polygon points="5 3 19 12 5 21 5 3"></polygon>
               </svg>
-              <span>Watch Now with {provider.shortName}</span>
+              <span>Watch with {provider.shortName}</span>
             </button>
 
             <button
               type="button"
               className="btn-provider-watchlist"
-              onClick={() => alert(`Added ${provider.featuredTitle} to your watchlist!`)}
+              onClick={() => alert(`Added ${heroTitle} to your watchlist!`)}
             >
               <span>+ Add to Watchlist</span>
             </button>
